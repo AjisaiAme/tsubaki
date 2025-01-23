@@ -1,0 +1,124 @@
+/* Default Theme Variables */
+:root {
+    --header-background-color: white;
+    --header-text-color: black;
+    --button-background-color: black; /* Toggle background */
+    --button-text-color: white; /* Toggle knob */
+    --header-link-hover-color: #cd2e2d;
+    --primary-color: #007bff;
+}
+
+/* Header Styles */
+.site-header {
+    background-color: var(--header-background-color);
+    color: var(--header-text-color);
+    transition: top 0.3s, background-color 0.3s, color 0.3s; /* Smooth transitions */
+
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hidden {
+    top: -100px; /* Hide header when scrolled up */
+}
+
+.site-header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.site-header nav ul li a {
+    color: var(--header-text-color);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.site-header nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--header-link-hover-color);
+}
+
+/* Toggle Button */
+.toggle-container {
+    position: relative;
+    width: 50px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Align to the right */
+}
+
+/* Hide checkbox */
+.toggle-checkbox {
+    display: none;
+}
+
+/* Toggle label */
+.toggle-label {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: var(--button-background-color); /* Responds to theme */
+    border-radius: 24px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Smooth background change */
+}
+
+/* Knob */
+.toggle-switch {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--button-text-color); /* Knob color follows theme */
+    border-radius: 50%;
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth movement and color */
+}
+
+/* Checked State */
+.toggle-checkbox:checked + .toggle-label {
+    background-color: var(--primary-color); /* Optional: Change the track color */
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-switch {
+    transform: translateX(26px); /* Moves knob to the right */
+    background-color: var(--button-text-color); /* Ensures knob matches the text color */
+}
+
+/* Dropdown styles */
+select {
+    padding: 5px 10px;
+    margin-left: 10px;
+    font-size: 14px;
+    border: 1px solid var(--header-text-color);
+    background-color: var(--header-background-color);
+    color: var(--header-text-color);
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Body padding for header spacing */
+body {
+    padding-top: 80px;
+}

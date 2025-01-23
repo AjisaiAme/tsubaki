@@ -1,0 +1,62 @@
+/* Default Theme (Light) */
+:root {
+    --background-color: #ffffff; /* Default light background */
+    --text-color: #000000; /* Default dark text */
+    --header-background-color: #ffffff;
+    --header-text-color: #000000;
+    --header-link-hover-color: #cd2e2d;
+    --primary-color: #007bff;
+    --secondary-color: #eaeaea; /* Light gray for secondary UI elements */
+    --border-color: #cccccc;
+    --button-background-color: #000000;
+    --button-text-color: #ffffff;
+}
+
+/* Light Mode - Mia */
+:root[data-theme="light-mia"] {
+    --background-color: #f5f5f5; /* Base white */
+    --text-color: #2d211c; /* Deep brown */
+    --primary-color: #cd2e3d;
+    --accent-color: #cd2e3d; /* Red accent */
+    --secondary-color: #d9d5cf; /* Light beige */
+
+    --header-background-color: #f5f5f5;
+    --header-text-color: #2d211c;
+    --header-link-hover-color: #cd2e3d;
+
+    --button-background-color: #cd2e3d;
+    --button-text-color: #f5f5f5;
+
+    --border-color: #d9d5cf;
+}
+
+/* Dark Mode (Basic) */
+:root[data-theme="dark"] {
+    --background-color: #181818; /* Dark background */
+    --text-color: #e0e0e0; /* Light gray text */
+    --header-background-color: #222; /* Dark gray */
+    --header-text-color: #f1f1f1; /* Light gray for contrast */
+    --header-link-hover-color: #bb86fc; /* Purple hover effect */
+    --primary-color: #bb86fc; /* Purple accent */
+    --secondary-color: #03dac6; /* Teal accent */
+    --border-color: #333; /* Dark border */
+
+    --button-background-color: #333; /* Matches dark theme */
+    --button-text-color: #f1f1f1; /* Light text for buttons */
+}
+
+/* Dark Mode - Herta */
+:root[data-theme="dark-herta"] {
+    --background-color: #353650; /* Secondary background */
+    --text-color: #d9d9d9; /* Light gray for readability */
+    --header-background-color: #24212f; /* Primary background */
+    --header-text-color: #ffffff; /* White text for contrast */
+    --header-link-hover-color: #8400db; /* Purple accent */
+
+    --primary-color: #8400db; /* Accent color */
+    --secondary-color: #24272d; /* Foreground highlight */
+    --border-color: #333333;
+
+    --button-background-color: #24212f; /* Matches primary background */
+    --button-text-color: #ffffff; /* White text for contrast */
+}

@@ -1,0 +1,175 @@
+h2 {
+    color: var(--primary-color);
+}
+
+.anilist-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Ensure wider items */
+    gap: 20px; /* Reduce gap between items */
+    padding: 10px;
+}
+
+.anilist-list-item {
+    position: relative;
+    display: flex;
+    flex-direction: row; /* Arrange items side by side */
+    align-items: flex-start;
+    background: var(--background-color); /* Use theme background color */
+    padding: 16px; /* Adjust padding */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    gap: 20px; /* Space between image and text */
+    box-sizing: border-box;
+}
+
+.anilist-list-item:hover {
+    background: var(--secondary-color); /* Use secondary color for hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.anilist-cover {
+    width: 120px; /* Set a fixed width */
+    height: auto; /* Allow height to adjust automatically */
+    max-height: 180px; /* Ensure max height for the cover */
+    border-radius: 8px;
+    object-fit: cover; /* Maintain aspect ratio */
+    margin-right: 20px; /* Space between cover and details */
+}
+
+.anilist-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+    text-align: left;
+    padding: 5px;
+    height: auto;
+    overflow: hidden; /* Hide overflow to maintain the layout */
+}
+
+.anilist-details h3 {
+    margin: 0;
+    color: var(--primary-color); /* Primary color for titles */
+    font-size: 1rem;
+}
+
+.anilist-details h3 a {
+    color: var(--primary-color); /* Use primary color for links */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.anilist-details h3 a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+.anilist-details p {
+    margin: 2px 0;
+    color: var(--text-color); /* Use theme text color */
+    font-size: 0.85rem; /* Smaller text */
+}
+
+.score-container, .date-container,.genres-container {
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Align items vertically centered */
+    gap: 5px; /* Add spacing between the icon and text */
+    font-size: 0.9rem; /* Adjust font size for text */
+    line-height: 1.2; /* Ensure consistent line height */
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.genre-icon, .score-icon, .calendar-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    fill: var(--primary-color);
+}
+
+.genres {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Truncate if too long */
+    color: var(--text-color); /* Use text color for genres */
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pagination-controls button {
+    padding: 10px 15px;
+    background-color: var(--button-background-color); /* Use button background color */
+    border: none;
+    color: var(--button-text-color); /* Use button text color */
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination-controls button:hover {
+    background-color: var(--primary-color); /* Primary color for hover */
+    color: var(--button-text-color); /* Ensure text color matches */
+}
+
+.pagination-controls span {
+    color: var(--text-color); /* Use theme text color */
+}
+
+/* Media Queries for Responsiveness */
+
+/* Tablet view (600px to 768px) */
+@media (max-width: 768px) {
+    .anilist-list {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Smaller columns */
+        gap: 15px;
+    }
+
+    .anilist-list-item {
+        padding: 12px;
+    }
+
+    .anilist-cover {
+        max-width: 100px; /* Reduce image size */
+    }
+
+    .anilist-details h3 {
+        font-size: 1rem; /* Adjust font size */
+    }
+}
+
+/* Mobile view (up to 600px) */
+@media (max-width: 600px) {
+    .anilist-list {
+        grid-template-columns: 1fr; /* Single column layout */
+        gap: 10px;
+    }
+
+    .anilist-list-item {
+        flex-direction: column; /* Stack content vertically */
+        padding: 10px;
+    }
+
+    .anilist-cover {
+        max-width: 80px; /* Even smaller image */
+        margin-bottom: 10px; /* Add spacing below the image */
+    }
+
+    .anilist-details h3 {
+        font-size: 0.9rem; /* Smaller font for mobile */
+    }
+
+    .anilist-details p {
+        font-size: 0.8rem; /* Smaller text for mobile */
+    }
+
+    .pagination-controls {
+        flex-direction: column; /* Stack pagination buttons vertically on mobile */
+    }
+}
