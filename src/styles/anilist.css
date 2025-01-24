@@ -1,133 +1,193 @@
+/* General Styling */
 h2 {
     color: var(--primary-color);
 }
 
+/* List Layout */
 .anilist-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Ensure wider items */
-    gap: 20px; /* Reduce gap between items */
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
     padding: 10px;
 }
 
+/* List Item */
 .anilist-list-item {
     position: relative;
     display: flex;
-    flex-direction: row; /* Arrange items side by side */
+    flex-direction: row;
     align-items: flex-start;
-    background: var(--background-color); /* Use theme background color */
-    padding: 16px; /* Adjust padding */
+    background: var(--secondary-color);
+    padding: 16px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-    gap: 20px; /* Space between image and text */
+    gap: 20px;
+    transition: background 0.3s, box-shadow 0.3s, color 0.3s;
     box-sizing: border-box;
 }
 
 .anilist-list-item:hover {
-    background: var(--secondary-color); /* Use secondary color for hover */
+    background: var(--primary-color);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
-.anilist-cover {
-    width: 120px; /* Set a fixed width */
-    height: auto; /* Allow height to adjust automatically */
-    max-height: 180px; /* Ensure max height for the cover */
-    border-radius: 8px;
-    object-fit: cover; /* Maintain aspect ratio */
-    margin-right: 20px; /* Space between cover and details */
+/* Title & Text */
+.entry-title {
+    margin-bottom: 8px;
+    text-overflow: ellipsis;
 }
 
 .anilist-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    flex: 1;
-    text-align: left;
-    padding: 5px;
-    height: auto;
-    overflow: hidden; /* Hide overflow to maintain the layout */
+    flex: 1 1 auto; /* Allow it to grow and shrink as needed */
+    min-width: 0; /* Prevent overflow due to intrinsic minimum width */
 }
 
 .anilist-details h3 {
+    text-align: left;
     margin: 0;
-    color: var(--primary-color); /* Primary color for titles */
+    color: var(--primary-color);
     font-size: 1rem;
+    transition: color 0.3s;
 }
 
 .anilist-details h3 a {
-    color: var(--primary-color); /* Use primary color for links */
+    color: var(--primary-color);
     font-weight: bold;
     text-decoration: none;
+    display: inline-block;
+    max-width: 100%; /* Ensure it takes the full width of the container */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .anilist-details h3 a:hover {
-    text-decoration: underline; /* Add underline on hover */
+    text-decoration: underline;
+    color: var(--secondary-color);
 }
 
 .anilist-details p {
+    margin: 0;
+    text-align: left;
+    color: var(--text-color);
+    font-size: 0.85rem;
+}
+
+/* Hover Effects */
+.anilist-list-item:hover .anilist-details h3,
+.anilist-list-item:hover .anilist-details h3 a,
+.anilist-list-item:hover .anilist-details p {
+    color: white;
+}
+
+.anilist-list-item:hover .score-icon,
+.anilist-list-item:hover .progress-icon,
+.anilist-list-item:hover .calendar-icon,
+.anilist-list-item:hover .genre-icon {
+    fill: white;
+}
+
+/* Cover Image */
+.anilist-cover {
+    width: 120px;
+    max-height: 180px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* User Stats */
+.user-stats {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Containers for Icons and Text */
+.score-container, .progress-container, .date-container, .genres-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
     margin: 2px 0;
-    color: var(--text-color); /* Use theme text color */
-    font-size: 0.85rem; /* Smaller text */
 }
 
-.score-container, .date-container,.genres-container {
-    display: flex; /* Enable flexbox */
-    align-items: center; /* Align items vertically centered */
-    gap: 5px; /* Add spacing between the icon and text */
-    font-size: 0.9rem; /* Adjust font size for text */
-    line-height: 1.2; /* Ensure consistent line height */
-    margin-top: 2px;
-    margin-bottom: 2px;
-}
-
-.genre-icon, .score-icon, .calendar-icon {
+/* Icon Styling */
+.score-icon, .progress-icon, .genre-icon, .calendar-icon {
     width: 16px;
     height: 16px;
-    margin-right: 5px;
+    margin-right: 2px;
     fill: var(--primary-color);
-}
-
-.genres {
-    font-size: 0.8rem;
-    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Truncate if too long */
-    color: var(--text-color); /* Use text color for genres */
+    flex-shrink: 0;
 }
 
+/* Pagination Controls */
 .pagination-controls {
     display: flex;
     justify-content: center;
+    gap: 15px;
     align-items: center;
-    gap: 10px;
     margin-top: 20px;
 }
 
+/* Button Styling */
 .pagination-controls button {
-    padding: 10px 15px;
-    background-color: var(--button-background-color); /* Use button background color */
-    border: none;
-    color: var(--button-text-color); /* Use button text color */
+    padding: 10px 20px;
+    background-color: var(--button-background-color);
+    border: 2px solid var(--button-background-color);
+    color: var(--button-text-color);
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    font-size: 16px;
 }
 
+/* Hover effect for buttons */
 .pagination-controls button:hover {
-    background-color: var(--primary-color); /* Primary color for hover */
-    color: var(--button-text-color); /* Ensure text color matches */
+    background-color: var(--button-hover-background-color);
+    color: var(--button-text-color);
+    border-color: var(--button-hover-background-color);
 }
 
+/* Disabled Button Styling */
+.pagination-controls button:disabled {
+    background-color: var(--secondary-color);
+    color: var(--neutral-color);
+    cursor: not-allowed;
+}
+
+/* Page Number Text */
 .pagination-controls span {
-    color: var(--text-color); /* Use theme text color */
+    font-size: 16px;
+    color: var(--text-color);
+    font-weight: bold;
 }
 
-/* Media Queries for Responsiveness */
+/* Input Field for Custom Page Numbers */
+.pagination-controls input {
+    width: 50px;
+    padding: 5px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    outline: none;
+    transition: all 0.3s ease;
+}
 
-/* Tablet view (600px to 768px) */
+/* Input Focus State */
+.pagination-controls input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px var(--primary-color);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .anilist-list {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Smaller columns */
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 15px;
     }
 
@@ -136,40 +196,58 @@ h2 {
     }
 
     .anilist-cover {
-        max-width: 100px; /* Reduce image size */
+        max-width: 100px;
     }
 
     .anilist-details h3 {
-        font-size: 1rem; /* Adjust font size */
+        font-size: 1rem;
+    }
+
+    .pagination-controls {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pagination-controls button {
+        padding: 8px 16px;
+    }
+
+    .pagination-controls span {
+        font-size: 14px;
+    }
+
+    .pagination-controls input {
+        width: 40px;
+        font-size: 14px;
     }
 }
 
-/* Mobile view (up to 600px) */
 @media (max-width: 600px) {
     .anilist-list {
-        grid-template-columns: 1fr; /* Single column layout */
+        grid-template-columns: 1fr;
         gap: 10px;
     }
 
     .anilist-list-item {
-        flex-direction: column; /* Stack content vertically */
+        flex-direction: column;
         padding: 10px;
     }
 
     .anilist-cover {
-        max-width: 80px; /* Even smaller image */
-        margin-bottom: 10px; /* Add spacing below the image */
+        max-width: 80px;
+        margin-bottom: 10px;
     }
 
     .anilist-details h3 {
-        font-size: 0.9rem; /* Smaller font for mobile */
+        font-size: 0.9rem;
     }
 
     .anilist-details p {
-        font-size: 0.8rem; /* Smaller text for mobile */
+        font-size: 0.8rem;
     }
 
     .pagination-controls {
-        flex-direction: column; /* Stack pagination buttons vertically on mobile */
+        flex-direction: column;
     }
 }

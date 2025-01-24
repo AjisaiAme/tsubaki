@@ -7,6 +7,7 @@ const themes = {
     lightMia: 'light-mia',
     dark: 'dark',
     darkHerta: 'dark-herta',
+    darkPhospho: 'dark-phospho'
 };
 
 const Header = () => {
@@ -14,7 +15,7 @@ const Header = () => {
     const [theme, setTheme] = useState(savedTheme);
     
     // Derive dark mode status from theme
-    const isDarkMode = theme === 'dark' || theme === 'dark-herta';
+    const isDarkMode = theme === 'dark' || theme === 'dark-herta' || theme === 'dark-phospho';
 
     useEffect(() => {
         // Apply the selected theme
@@ -38,10 +39,30 @@ const Header = () => {
         <header className="site-header">
             <nav>
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/anilist">AniList</a></li>
-                    <li><a href="/lastfm">last.fm</a></li>
+                    <li>
+                        <a href="/" className="animated-button">
+                            <span>Home</span>
+                            <span></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/about" className="animated-button">
+                            <span>About</span>
+                            <span></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/anilist" className="animated-button">
+                            <span>AniList</span>
+                            <span></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/lastfm" className="animated-button">
+                            <span>last.fm</span>
+                            <span></span>
+                        </a>
+                    </li>
                     <li>
                         <div className="toggle-container">
                             <input 
@@ -63,6 +84,7 @@ const Header = () => {
                             <option disabled>──────────</option> {/* Separator */}
                             <option value={themes.dark}>Dark</option>
                             <option value={themes.darkHerta}>Herta</option>
+                            <option value={themes.darkPhospho}>Phospho</option>
                         </select>
                     </li>
                 </ul>
