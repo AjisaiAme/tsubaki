@@ -1,26 +1,22 @@
-// CustomDropdown.js
-import React from "react";
-import Select from "react-select";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components"; // Import 'css' from styled-components
 
-/**
- * Custom styled wrapper for the react-select component
- */
 const CustomDropdownWrapper = styled.div`
+  width: 200px !important; /* Set the fixed width for the wrapper */
+
   /* Style for the control (dropdown button) */
   .react-select__control {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background-color: var(--background-color) !important; /* White background */
-    border: 2px solid var(--primary-color) !important; /* Black border */
-    color: var(--primary-color) !important; /* Black text */
+    background-color: var(--background-color) !important;
+    border: 2px solid var(--primary-color) !important;
+    color: var(--primary-color) !important;
     border-radius: 0px !important;
     padding: 5px 10px !important;
     box-shadow: none !important;
     transition: all 0.3s ease-in-out !important;
-    width: 200px !important;
     height: 44px !important;
+    margin: 0 !important; /* Remove margin to avoid gaps */
 
     /* Container for the selected value */
     .react-select__value-container {
@@ -28,6 +24,7 @@ const CustomDropdownWrapper = styled.div`
       align-items: center;
       justify-content: center;
       height: 100%;
+      width: 100% !important;
     }
 
     /* Style for the selected value */
@@ -36,13 +33,13 @@ const CustomDropdownWrapper = styled.div`
       align-items: center;
       justify-content: center;
       margin: 0;
-      color: var(--primary-color) !important; /* Black text for selected value */
+      color: var(--primary-color) !important;
       transition: color 0.2s ease !important;
     }
 
     /* Style for the placeholder text */
     .react-select__placeholder {
-      color: var(--primary-color) !important; /* Black placeholder text */
+      color: var(--primary-color) !important;
       font-style: italic !important;
       transition: color 0.2s ease !important;
     }
@@ -51,20 +48,20 @@ const CustomDropdownWrapper = styled.div`
     &:hover {
       box-shadow: 8px 8px 0px var(--primary-color) !important;
       transition: all 0.2s ease !important;
-      color: var(--background-color) !important; /* Text turns white on hover */
+      color: var(--background-color) !important;
     }
 
     /* Focused or opened state for the control */
     &.react-select__control--is-focused,
     &.react-select__control--menu-is-open {
       box-shadow: 8px 8px 0px var(--primary-color) !important;
-      background-color: var(--primary-color) !important; /* Black background on focus/open */
-      color: var(--background-color) !important; /* White text on focus/open */
-      border: 2px solid var(--secondary-color) !important; /* White border */
-
+      background-color: var(--primary-color) !important;
+      color: var(--background-color) !important;
+      border: 2px solid var(--background-color) !important;
+      
       .react-select__single-value,
       .react-select__placeholder {
-        color: var(--background-color) !important; /* White text when focused/active */
+        color: var(--background-color) !important;
       }
     }
 
@@ -73,45 +70,45 @@ const CustomDropdownWrapper = styled.div`
       props.context === "parameters" &&
       css`
         width: 250px !important;
-        background-color: var(--secondary-color) !important; /* White background in this context */
+        background-color: var(--secondary-color) !important;
       `}
   }
 
   /* Style for the menu (dropdown list) */
   .react-select__menu {
-    background-color: var(--background-color) !important; /* White background */
+    background-color: var(--background-color) !important;
     border: none !important;
     border-radius: 0px !important;
-    margin: 0 !important;
-    box-shadow: 8px 8px 0px var(--primary-color) !important; /* Black shadow */
-    width: 200px !important;
+    margin: 0 !important; /* Remove margin to avoid gaps */
+    box-shadow: 8px 8px 0px var(--primary-color) !important;
+    width: 100% !important;
   }
 
   .react-select__menu-list {
-    padding: 0 !important;
+    padding: 0 !important; /* Remove padding to avoid gaps */
   }
 
   /* Style for the options in the dropdown */
   .react-select__option {
-    background-color: var(--background-color) !important; /* White background for options */
-    color: var(--primary-color) !important; /* Black text color */
+    background-color: var(--background-color) !important;
+    color: var(--primary-color) !important;
     padding: 10px !important;
     cursor: pointer !important;
     font-weight: normal !important;
     border-radius: 0px !important;
     transition: background-color 0.2s ease, color 0.2s ease !important;
 
-    /* Hover state for the options */
     &:hover {
-      background-color: rgba(var(--primary-color-rgb), 0.1) !important; /* Light gray hover background */
-      color: var(--primary-color) !important; /* White text on hover */
+      background-color: rgba(var(--primary-color-rgb), 0.1) !important;
+      color: var(--primary-color) !important;
     }
 
-    /* Selected state for the options */
     &.react-select__option--is-selected {
-      background-color: var(--primary-color) !important; /* Black background when selected */
-      color: var(--background-color) !important; /* White text for selected option */
+      background-color: var(--primary-color) !important;
+      color: var(--background-color) !important;
       font-weight: bold !important;
+      border-bottom: 2px solid var(--background-color) !important;
+      border-right: 2px solid var(--background-color) !important;
     }
   }
 

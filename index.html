@@ -1,5 +1,6 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <!--  -->
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -7,13 +8,13 @@
     <title>Vite + React</title>
   </head>
   <body>
-    <div class="container">
-      <div id="root"></div>
+    <!--  -->
+    <div id="root"></div> <!-- React app will mount here -->
 
-      <!-- Scripts --> 
+    <!-- Main React app script -->
+    <script type="module" src="/src/main.jsx"></script>
 
-      <script type="module" src="/src/main.jsx"></script>
-      <script src="./src/js/headerScript.js"></script>
-    </div>
+    <!-- Other scripts like headerScript.js can be loaded after React -->
+    <script src="./src/js/headerScript.js"></script>
   </body>
 </html>
