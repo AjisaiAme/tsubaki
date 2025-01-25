@@ -2,11 +2,11 @@
    Global Styling
 ---------------------------- */
 :root {
-    font-family: var(--font-family); /* Global font-family */
+    font-family: var(--font-family);
 }
 
 h2, h3, p, .anilist-details h3 {
-    font-family: var(--font-family); /* Apply font-family to headers and text elements */
+    font-family: var(--font-family);
 }
 
 body {
@@ -19,72 +19,209 @@ body {
 /* ----------------------------
    Manga Theme Styling
 ---------------------------- */
-:root[data-theme="manga"] {
-    --blocky-shadow: 6px 6px 0px var(--primary-color); /* Blocky shadow effect */
-    --hover-blocky-shadow: 8px 8px 0px var(--primary-color); /* Stronger shadow on hover */
-}
+    :root[data-theme="manga"] {
+        --blocky-shadow: 6px 6px 0px var(--primary-color); /* Blocky shadow effect */
+        --hover-blocky-shadow: 8px 8px 0px var(--primary-color); /* Stronger shadow on hover */
+    }
 
-[data-theme="manga"] .anilist-cover {
+    [data-theme="manga"] .anilist-cover {
+        border-radius: 0px;
+    }
+
+    [data-theme="manga"] h2,
+    [data-theme="manga"] .anilist-details h3 {
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--primary-color);
+    }
+
+    [data-theme="manga"] .anilist-details p {
+        letter-spacing: 0.1em;
+        color: var(--text-color);
+    }
+
+    [data-theme="manga"] .anilist-list-item {
+        background-color: var(--secondary-color);
+        border: 2px solid var(--primary-color);
+        box-shadow: var(--blocky-shadow);
+        border-radius: 0px; /* Sharp corners for a blocky feel */
+        padding: 16px;
+        transition: all 0.3s ease;
+    }
+
+    [data-theme="manga"] .anilist-list-item:hover {
+        background-color: var(--primary-color); /* Primary color as background */
+        color: var(--secondary-color); /* Secondary color for text contrast */
+        border-color: var(--secondary-color); /* Adjust border color to match */
+        box-shadow: var(--hover-blocky-shadow);
+    }
+
+    :root[data-theme="manga"] .filter-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    :root[data-theme="manga"] .filter-container select {
+        padding: 10px;
+        font-size: 16px;
+        font-family: var(--font-family);
+        border: 2px solid var(--primary-color);
+        color: var(--text-color);
+        outline: none;
+        background: var(--background-color);
+        box-shadow: var(--blocky-shadow);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    :root[data-theme="manga"] .filter-container select:hover,
+    :root[data-theme="manga"] .filter-container select:focus {
+        border-color: var(--primary-color);
+        background-color: var(--secondary-color);
+        box-shadow: var(--hover-blocky-shadow);
+        transform: translateY(-2px);
+    }
+
+:root[data-theme="starpeggio"] .anilist-list-item {
+    background-color: var(--background-color);
+    border: 3px solid var(--accent-color);
     border-radius: 0px;
-}
-
-[data-theme="manga"] h2,
-[data-theme="manga"] .anilist-details h3 {
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--primary-color);
-}
-
-[data-theme="manga"] .anilist-details p {
-    letter-spacing: 0.1em;
-    color: var(--text-color);
-}
-
-[data-theme="manga"] .anilist-list-item {
-    background-color: var(--secondary-color);
-    border: 2px solid var(--primary-color);
-    box-shadow: var(--blocky-shadow);
-    border-radius: 0px; /* Sharp corners for a blocky feel */
     padding: 16px;
     transition: all 0.3s ease;
+    box-shadow: none;
 }
 
-[data-theme="manga"] .anilist-list-item:hover {
-    background-color: var(--primary-color); /* Primary color as background */
-    color: var(--secondary-color); /* Secondary color for text contrast */
-    border-color: var(--secondary-color); /* Adjust border color to match */
-    box-shadow: var(--hover-blocky-shadow);
+    :root[data-theme="starpeggio"] .anilist-list-item .anilist-cover {
+        border-radius: 0;
+    }
+    
+    :root[data-theme="starpeggio"] .anilist-list-item h3 a {
+        color: var(--accent-color);
+    }
+    
+    :root[data-theme="starpeggio"] .anilist-list-item:hover {
+        background-color: var(--background-color);
+        border-color: var(--primary-color);
+    }
+    
+    :root[data-theme="starpeggio"] .anilist-list-item:hover .anilist-details h3,
+    :root[data-theme="starpeggio"] .anilist-list-item:hover .anilist-details p {
+        color: var(--accent-color) !important;
+        transition: color 0.3s ease; 
+    }
+    
+    :root[data-theme="starpeggio"] .anilist-list-item:hover .anilist-details h3 a {
+        color: var(--primary-color) !important;
+        transition: color 0.3s ease; 
+        text-decoration: underline;
+    }
+    
+:root[data-theme="supernova"] .anilist-list-item {
+    background-color: var(--background-color);
+    border: 1px solid var(--primary-color);
+    color: var(--neutral-color);
+    border-radius: 0px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    z-index: 2;
 }
 
-/* Filter Container */
-:root[data-theme="manga"] .filter-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+:root[data-theme="supernova"] .container > h3 {
+    --font-family: "Cormorant", serif;
+    color: var(--primary-color);
+    font-size: 42px;
 }
 
-:root[data-theme="manga"] .filter-container select {
-    padding: 10px;
+
+:root[data-theme="supernova"] {
+    --primary-color: #C69C6D;
+    --background-color: #1A1A1A;
+    --accent-color: var(--primary-color);
+    --neutral-color: #D1D1D1;
+    --background-image: url('../assets/supernova/supernova-bg.webp'); /* Background Image */
+    --glyph-image: url('../assets/supernova/supernova-bg-object.svg'); /* Glyph Image */
+    --font-family: 'Noto Sans JP', sans-serif;
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+:root[data-theme="supernova"] .page-content {
+    background-color: var(--background-color);
+    background-image: var(--background-image);
+    background-size: auto;
+    background-repeat: repeat;
+    background-position: top left;
+    background-attachment: fixed;
+    padding: 20px;
+    position: relative;
+}
+
+:root[data-theme="supernova"] .page-content::before {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    background-image: var(--glyph-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transform: translate(-50%, -50%);
+    animation: spin 90s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Specific styles for Anilist items */
+:root[data-theme="supernova"] .anilist-list-item {
+    background-color: var(--background-color);
+    border: 1px solid var(--primary-color);
+    color: var(--neutral-color);
+    border-radius: 0px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+:root[data-theme="supernova"] .anilist-list-item .anilist-cover {
+    border-radius: 0;
+}
+
+:root[data-theme="supernova"] .anilist-list-item h3 a {
+    color: var(--primary-color);
+    font-size: 24px;
+    font-family: 'Cormorant', serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+}
+
+:root[data-theme="supernova"] .anilist-list-item .entry-title p {
+    font-family: 'Cormorant', serif;
     font-size: 16px;
-    font-family: var(--font-family);
-    border: 2px solid var(--primary-color);
-    color: var(--text-color);
-    outline: none;
-    background: var(--background-color);
-    box-shadow: var(--blocky-shadow);
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-:root[data-theme="manga"] .filter-container select:hover,
-:root[data-theme="manga"] .filter-container select:focus {
-    border-color: var(--primary-color);
-    background-color: var(--secondary-color);
-    box-shadow: var(--hover-blocky-shadow);
-    transform: translateY(-2px);
+:root[data-theme="supernova"] .anilist-list-item .anilist-details p {
+    color: var(--neutral-color);
+}
+
+:root[data-theme="supernova"] .anilist-list-item:hover .anilist-details h3 a {
+    color: var(--primary-color) !important;
+    transition: color 0.3s ease; 
+    text-decoration: underline;
 }
 
 
@@ -108,7 +245,7 @@ body {
     align-items: center;
     justify-content: flex-end; /* Align to the right */
     gap: 20px; /* Spacing similar to manga theme */
-    padding: 10px; /* Apply padding similar to manga theme */
+    padding: 10 0; /* Apply padding similar to manga theme */
 }
 
 /* Header Item Styling (Buttons or Links) */
@@ -176,8 +313,8 @@ body {
     justify-content: center;
     font-weight: bold;
     border: 2px solid var(--primary-color);
-    background-color: var(--button-background-color);
-    color: var(--button-text-color);
+    background-color: var(--background-color);
+    color: var(--primary-color);
     padding: 12px 24px;
     text-transform: uppercase;
     border-radius: 0px;
@@ -188,9 +325,9 @@ body {
 }
 
 .reset-button:hover {
-    background-color: var(--button-hover-background-color);
-    color: var(--primary-color);
-    border: 2px solid var(--button-hover-background-color); /* Change border to match hover background */
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: 2px solid var(--background-color); /* Change border to match hover background */
     box-shadow: 8px 8px 0px var(--primary-color);
     transition: all 0.3s ease;
 }
@@ -211,15 +348,15 @@ body {
 
 /* Pagination Top & Bottom */
 .pagination-container {
-    margin: 8px;
+    margin: 28px;
   }
 
 /* List Layout */
 .anilist-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
     gap: 20px;
-    padding: 10px;
+    padding: 0;
 }
 
 .anilist-list-item {
@@ -249,7 +386,7 @@ body {
 .entry-title h3 a{
     margin-bottom: 8px;
     text-overflow: ellipsis;
-    line-height: 1;
+    line-height: 1.2;
     font-size: 1.1em;
     margin: 0;
 }
@@ -307,7 +444,7 @@ body {
 .anilist-list-item:hover .progress-icon,
 .anilist-list-item:hover .calendar-icon,
 .anilist-list-item:hover .genre-icon {
-    fill: white;
+    fill: var(--primary-color);
 }
 
 /* Cover Image */

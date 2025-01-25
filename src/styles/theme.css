@@ -129,6 +129,8 @@ body {
 
     /* Border Colors */
     --border-color: var(--neutral-color); /* Subtle borders */
+
+    --font-family: 'Overpass', sans-serif;
 }
 
 /* Dark Herta Theme */
@@ -184,3 +186,85 @@ body {
     /* Border Colors */
     --border-color: #2c3a47; /* Subtle borders */
 }
+ /* https://midnight-grand-orchestra.jp/starpeggio/ */
+:root[data-theme="starpeggio"]{
+    --primary-color: #3945FF;
+    --secondary-color: #D5D9DF;
+    --accent-color: black;
+    --background-color: #E8ECF2;
+
+    --font-family: 'PP Neue Montreal', sans-serif;
+}
+    .pp-neue-montreal {
+        font-family: "PP Neue Montreal", sans-serif;
+        font-weight: 500;
+        font-synthesis: none;
+        -webkit-text-size-adjust: none;
+    }
+
+    :root[data-theme="supernova"] {
+        --primary-color: #C69C6D;
+        --background-color: #1A1A1A;
+        --accent-color: #D1D1D1;
+        --neutral-color: #D1D1D1;
+    
+        /* Noise background image setup */
+        --background-image: url('../assets/supernova/supernova-bg.webp');
+        --background-image-settings: repeat; /* Ensures tiling */
+        --background-size: auto; /* Use the image's natural size */
+        --background-position: top left; /* Align to the top left */
+        --font-family: 'Noto Sans JP', sans-serif;
+    
+        --glyph-image: url('../assets/supernova/supernova-bg-object.svg');
+    }
+    
+    @keyframes spin {
+        from {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        to {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+    
+    /* Body styling */
+    :root[data-theme="supernova"] body {
+        font-family: var(--font-family, sans-serif);
+        background-color: var(--background-color);
+        background-image: var(--background-image);
+        background-repeat: var(--background-image-settings); /* Ensures repeat */
+        background-size: var(--background-size); /* Maintain the natural scaling */
+        background-position: var(--background-position); /* Align to the top-left */
+        position: relative; /* Required for positioning the glyph overlay */
+    }
+    
+    /* Add the spinning glyph */
+    :root[data-theme="supernova"] body::before {
+        content: "";
+        position: absolute;
+        top: 50%; /* Position the glyph at the center */
+        left: 50%; 
+        transform: translate(-50%, -50%); /* Center it exactly */
+        width: 150px; /* Adjust the size */
+        height: 150px; /* Adjust the size */
+        background-image: var(--glyph-image);
+        background-size: contain; /* Make the image scale to fit */
+        background-repeat: no-repeat;
+        animation: spin 30s linear infinite; /* Spin animation */
+    }
+    
+    /* Typography classes */
+    .noto-sans-jp {
+        font-family: "Noto Sans JP", serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+    }
+    
+    .cormorant {
+        font-family: "Cormorant", serif;
+        font-optical-sizing: auto;
+        font-weight: bold;
+        font-style: normal;
+    }
+    

@@ -1,7 +1,9 @@
-import styled, { css } from "styled-components"; // Import 'css' from styled-components
+import styled, { css } from "styled-components";
 
 const CustomDropdownWrapper = styled.div`
-  width: 200px !important; /* Set the fixed width for the wrapper */
+  width: 200px !important;
+
+  z-index: 10 !important; /* Ensure it is above the glyph */
 
   /* Style for the control (dropdown button) */
   .react-select__control {
@@ -16,7 +18,9 @@ const CustomDropdownWrapper = styled.div`
     box-shadow: none !important;
     transition: all 0.3s ease-in-out !important;
     height: 44px !important;
-    margin: 0 !important; /* Remove margin to avoid gaps */
+    margin: 0 !important;
+    
+    z-index: 20 !important; 
 
     /* Container for the selected value */
     .react-select__value-container {
@@ -40,7 +44,6 @@ const CustomDropdownWrapper = styled.div`
     /* Style for the placeholder text */
     .react-select__placeholder {
       color: var(--primary-color) !important;
-      font-style: italic !important;
       transition: color 0.2s ease !important;
     }
 
@@ -79,13 +82,15 @@ const CustomDropdownWrapper = styled.div`
     background-color: var(--background-color) !important;
     border: none !important;
     border-radius: 0px !important;
-    margin: 0 !important; /* Remove margin to avoid gaps */
+    margin: 0 !important; 
     box-shadow: 8px 8px 0px var(--primary-color) !important;
     width: 100% !important;
+
+    z-index: 30 !important; 
   }
 
   .react-select__menu-list {
-    padding: 0 !important; /* Remove padding to avoid gaps */
+    padding: 0 !important; 
   }
 
   /* Style for the options in the dropdown */
