@@ -6,8 +6,8 @@ const DateDisplay = ({ startedAt, completedAt, formatDate }) => {
             if (startedAt && formatDate(startedAt) && completedAt && formatDate(completedAt)) {
                 return (
                     <>
-                        <p>Started {formatDate(startedAt)} to</p>
-                        <p>Finished {formatDate(completedAt)}</p>
+                        <p>{formatDate(startedAt)} to</p>
+                        <p>{formatDate(completedAt)}</p>
                     </>
                 );
             } else if (startedAt && formatDate(startedAt)) {

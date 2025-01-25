@@ -3,7 +3,7 @@
     background-color: var(--header-background-color);
     color: var(--text-color);
     transition: top 0.3s, background-color 0.3s, color 0.3s;
-    padding: 20px;
+    padding: 0; /* Removed top/bottom padding */
     position: fixed;
     top: 0;
     left: 0;
@@ -16,6 +16,11 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.site-header nav ul li select {
+    display: flex;
+    align-items: center;
+}
+
 /* Navigation Styles */
 .site-header nav ul {
     list-style: none;
@@ -23,7 +28,6 @@
     margin: 0;
     display: flex;
     gap: 20px;
-    align-items: center; /* Aligns items vertically */
 }
 
 .site-header nav ul li {
@@ -40,8 +44,10 @@
 /* Animated Button */
 .animated-button {
     position: relative;
-    display: inline-flex; /* Ensures vertical alignment */
+    display: inline-block; /* Ensures vertical alignment */
     align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
     padding: 10px 20px;
     font-size: 16px;
     font-weight: 600;
@@ -128,23 +134,3 @@
     background-color: var(--header-background-color);
 }
 
-/* Dropdown Styling */
-select {
-    padding: 5px 10px;
-    font-size: 14px;
-    border: 1px solid var(--header-text-color);
-    background-color: var(--header-background-color);
-    color: var(--header-text-color);
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-}
-
-.site-header nav ul li select {
-    display: flex;
-    align-items: center;
-}

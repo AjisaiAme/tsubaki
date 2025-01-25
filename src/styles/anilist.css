@@ -1,7 +1,313 @@
-/* General Styling */
-h2 {
+/* ----------------------------
+   Global Styling
+---------------------------- */
+:root {
+    font-family: var(--font-family); /* Global font-family */
+}
+
+h2, h3, p, .anilist-details h3 {
+    font-family: var(--font-family); /* Apply font-family to headers and text elements */
+}
+
+body {
+    letter-spacing: 0em;
+    line-height: 1.5;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* ----------------------------
+   Manga Theme Styling
+---------------------------- */
+:root[data-theme="manga"] {
+    --blocky-shadow: 6px 6px 0px var(--primary-color); /* Blocky shadow effect */
+    --hover-blocky-shadow: 8px 8px 0px var(--primary-color); /* Stronger shadow on hover */
+}
+
+[data-theme="manga"] .anilist-cover {
+    border-radius: 0px;
+}
+
+[data-theme="manga"] h2,
+[data-theme="manga"] .anilist-details h3 {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     color: var(--primary-color);
 }
+
+[data-theme="manga"] .anilist-details p {
+    letter-spacing: 0.1em;
+    color: var(--text-color);
+}
+
+[data-theme="manga"] .anilist-list-item {
+    background-color: var(--secondary-color);
+    border: 2px solid var(--primary-color);
+    box-shadow: var(--blocky-shadow);
+    border-radius: 0px; /* Sharp corners for a blocky feel */
+    padding: 16px;
+    transition: all 0.3s ease;
+}
+
+[data-theme="manga"] .anilist-list-item:hover {
+    background-color: var(--primary-color); /* Primary color as background */
+    color: var(--secondary-color); /* Secondary color for text contrast */
+    border-color: var(--secondary-color); /* Adjust border color to match */
+    box-shadow: var(--hover-blocky-shadow);
+}
+
+[data-theme="manga"] .pagination-controls button,
+[data-theme="manga"] .pagination-controls input {
+    font-weight: bold;
+    border: 2px solid var(--primary-color);
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    padding: 12px 24px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+[data-theme="manga"] .pagination-controls button:hover,
+[data-theme="manga"] .pagination-controls input:focus {
+    background-color: var(--button-hover-background-color);
+    color: var(--primary-color);
+    box-shadow: var(--hover-blocky-shadow);
+}
+
+/* Search Container */
+:root[data-theme="manga"] .search-container {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    background-color: var(--background-color);
+}
+
+:root[data-theme="manga"] .search-input {
+    padding: 10px;
+    width: 240px;
+    font-size: 16px;
+    font-family: var(--font-family);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    outline: none;
+    background: var(--background-color);
+    box-shadow: var(--blocky-shadow);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+:root[data-theme="manga"] .search-input::placeholder {
+    color: var(--primary-color);
+    opacity: 0.5;
+}
+
+:root[data-theme="manga"] .search-input:focus,
+:root[data-theme="manga"] .search-input:hover {
+    border-color: var(--primary-color);
+    background-color: var(--secondary-color);
+    box-shadow: var(--hover-blocky-shadow);
+    transform: translateY(-2px);
+}
+
+/* Filter Container */
+:root[data-theme="manga"] .filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+:root[data-theme="manga"] .filter-container select {
+    padding: 10px;
+    font-size: 16px;
+    font-family: var(--font-family);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    outline: none;
+    background: var(--background-color);
+    box-shadow: var(--blocky-shadow);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+:root[data-theme="manga"] .filter-container select:hover,
+:root[data-theme="manga"] .filter-container select:focus {
+    border-color: var(--primary-color);
+    background-color: var(--secondary-color);
+    box-shadow: var(--hover-blocky-shadow);
+    transform: translateY(-2px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    [data-theme="manga"] .anilist-list {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    [data-theme="manga"] .anilist-list-item,
+    [data-theme="manga"] .pagination-controls button {
+        padding: 12px;
+        box-shadow: 3px 3px 0px var(--primary-color);
+    }
+
+    .anilist-cover {
+        max-width: 100px;
+    }
+
+    .anilist-details h3 {
+        font-size: 1rem;
+    }
+
+    .pagination-controls {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pagination-controls button {
+        padding: 8px 16px;
+    }
+
+    .pagination-controls input {
+        width: 40px;
+    }
+}
+
+@media (max-width: 600px) {
+    .anilist-list {
+        grid-template-columns: 1fr;
+    }
+
+    .anilist-list-item {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .anilist-cover {
+        max-width: 80px;
+        margin-bottom: 10px;
+    }
+
+    .anilist-details h3 {
+        font-size: 0.9rem;
+    }
+
+    .anilist-details p {
+        font-size: 0.8rem;
+    }
+
+    .pagination-controls {
+        flex-direction: column;
+    }
+}
+
+/* ----------------------------
+   AniList Components
+---------------------------- */
+
+* {
+    box-sizing: border-box;
+}
+
+.page-content {
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* ----------------------------
+   Header
+---------------------------- */
+.header-wrap {
+    background-color: var(--secondary-color);
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end; /* Align to the right */
+    gap: 20px;
+}
+
+/* ----------------------------
+   Search Container
+---------------------------- */
+.search-container {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    background-color: var(--background-color);
+}
+
+.search-input {
+    padding: 10px;
+    width: 240px;
+    font-size: 16px;
+    font-family: var(--font-family);
+    border: 1px solid var(--primary-color); /* Solid border */
+    color: var(--text-color);
+    outline: none;
+    background: var(--background-color); /* No gradient */
+    box-shadow: none; /* No shadow */
+    -webkit-appearance: none; /* Remove default styling in WebKit browsers */
+    -moz-appearance: none; /* Remove default styling in Mozilla browsers */
+    appearance: none; /* Remove default styling in other browsers */
+    transition: border-color 0.3s ease; /* Smooth border transition */
+}
+
+.search-input::placeholder {
+    color: var(--primary-color); /* Placeholder color */
+    opacity: 0.5; /* Subtle opacity */
+}
+
+.search-input:focus, .search-input:hover {
+    border-width: 2px; /* Thicker border on focus */
+    border-color: var(--primary-color); /* Ensure border color remains the same */
+    padding: 9px; /* Reduce padding to accommodate thicker border inward */
+}
+
+/* ----------------------------
+   Filter Container
+---------------------------- */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.filter-container select {
+    padding: 10px;
+    font-size: 16px;
+    font-family: var(--font-family);
+    border: 1px solid var(--primary-color); /* Initial solid border */
+    color: var(--text-color);
+    outline: none;
+    background: var(--background-color); /* No gradient */
+    box-shadow: none; /* Remove any box shadow */
+    -webkit-appearance: none; /* Remove default styling in WebKit browsers */
+    -moz-appearance: none; /* Remove default styling in Mozilla browsers */
+    appearance: none; /* Remove default styling in other browsers */
+}
+
+.filter-container select:hover,
+.filter-container select:focus {
+    border-width: 2px; /* Thicker border on focus/hover */
+    border-color: var(--primary-color); /* Ensure border color remains the same */
+    background-color: var(--secondary-color); /* Subtle background change on hover/focus */
+    padding: 9px; /* Reduce padding to accommodate thicker border inward */
+}
+
+/* ----------------------------
+   Dropdown Options
+---------------------------- */
+.filter-container select option {
+    font-size: 16px;
+}
+
 
 /* List Layout */
 .anilist-list {
@@ -11,14 +317,13 @@ h2 {
     padding: 10px;
 }
 
-/* List Item */
 .anilist-list-item {
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     background: var(--secondary-color);
-    padding: 16px;
+    padding: 12px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     gap: 20px;
@@ -35,17 +340,22 @@ h2 {
 .entry-title {
     margin-bottom: 8px;
     text-overflow: ellipsis;
+    line-height: 1;
+}
+
+.anilist-details .entry-title p {
+    text-overflow: ellipsis;
+    font-size: 0.65em;
 }
 
 .anilist-details {
-    flex: 1 1 auto; /* Allow it to grow and shrink as needed */
-    min-width: 0; /* Prevent overflow due to intrinsic minimum width */
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .anilist-details h3 {
     text-align: left;
     margin: 0;
-    color: var(--primary-color);
     font-size: 1rem;
     transition: color 0.3s;
 }
@@ -55,7 +365,7 @@ h2 {
     font-weight: bold;
     text-decoration: none;
     display: inline-block;
-    max-width: 100%; /* Ensure it takes the full width of the container */
+    max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -122,7 +432,7 @@ h2 {
     flex-shrink: 0;
 }
 
-/* Pagination Controls */
+/* Pagination and Buttons */
 .pagination-controls {
     display: flex;
     justify-content: center;
@@ -131,7 +441,6 @@ h2 {
     margin-top: 20px;
 }
 
-/* Button Styling */
 .pagination-controls button {
     padding: 10px 20px;
     background-color: var(--button-background-color);
@@ -144,28 +453,24 @@ h2 {
     font-size: 16px;
 }
 
-/* Hover effect for buttons */
 .pagination-controls button:hover {
     background-color: var(--button-hover-background-color);
     color: var(--button-text-color);
     border-color: var(--button-hover-background-color);
 }
 
-/* Disabled Button Styling */
 .pagination-controls button:disabled {
     background-color: var(--secondary-color);
     color: var(--neutral-color);
     cursor: not-allowed;
 }
 
-/* Page Number Text */
 .pagination-controls span {
     font-size: 16px;
     color: var(--text-color);
     font-weight: bold;
 }
 
-/* Input Field for Custom Page Numbers */
 .pagination-controls input {
     width: 50px;
     padding: 5px;
@@ -176,12 +481,6 @@ h2 {
     font-weight: bold;
     outline: none;
     transition: all 0.3s ease;
-}
-
-/* Input Focus State */
-.pagination-controls input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px var(--primary-color);
 }
 
 /* Responsive Design */

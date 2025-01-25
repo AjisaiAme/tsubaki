@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import '../styles/header.css';
 import '../styles/theme.css';
 
+import CustomDropdown from '../components/customDropdown.jsx'; // Adjust the path accordingly
+
+// Themes object for easy mapping
 const themes = {
     light: 'light',
     lightMia: 'light-mia',
+    manga: 'manga',
     dark: 'dark',
     darkHerta: 'dark-herta',
     darkPhospho: 'dark-phospho'
@@ -13,7 +17,7 @@ const themes = {
 const Header = () => {
     const savedTheme = localStorage.getItem('theme') || 'light';
     const [theme, setTheme] = useState(savedTheme);
-    
+
     // Derive dark mode status from theme
     const isDarkMode = theme === 'dark' || theme === 'dark-herta' || theme === 'dark-phospho';
 
@@ -25,15 +29,25 @@ const Header = () => {
         localStorage.setItem('theme', theme);
     }, [theme]);
 
-    const handleThemeChange = (e) => {
-        setTheme(e.target.value);
+    // Handle theme change
+    const handleThemeChange = (selectedOption) => {
+        setTheme(selectedOption.value);
     };
 
     const toggleDarkMode = () => {
         const newTheme = isDarkMode ? 'light' : 'dark'; // Switch between light and dark-basic
         setTheme(newTheme);
-        setIsDarkMode(!isDarkMode);
     };
+
+    // Dropdown options for react-select
+    const themeOptions = [
+        { value: themes.light, label: 'Light' },
+        { value: themes.manga, label: 'Manga' },
+        { value: themes.lightMia, label: 'Mia' },
+        { value: themes.dark, label: 'Dark' },
+        { value: themes.darkHerta, label: 'Herta' },
+        { value: themes.darkPhospho, label: 'Phospho' },
+    ];
 
     return (
         <header className="site-header">
@@ -78,14 +92,11 @@ const Header = () => {
                         </div>
                     </li>
                     <li>
-                        <select value={theme} onChange={handleThemeChange}>
-                            <option value={themes.light}>Light</option>
-                            <option value={themes.lightMia}>Mia</option>
-                            <option disabled>──────────</option> {/* Separator */}
-                            <option value={themes.dark}>Dark</option>
-                            <option value={themes.darkHerta}>Herta</option>
-                            <option value={themes.darkPhospho}>Phospho</option>
-                        </select>
+                        <CustomDropdown
+                            options={themeOptions}
+                            value={theme}
+                            onChange={handleThemeChange}
+                        />
                     </li>
                 </ul>
             </nav>
