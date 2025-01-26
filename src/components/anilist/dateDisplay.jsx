@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const DateDisplay = ({ startedAt, completedAt, formatDate }) => {
   const renderDates = () => {
-    if (!startedAt && !completedAt) return <p>N/A</p>;
+    if (!startedAt && !completedAt) return <span>N/A</span>;
 
     const formattedStart = startedAt && formatDate(startedAt);
     const formattedEnd = completedAt && formatDate(completedAt);
@@ -11,16 +11,15 @@ const DateDisplay = ({ startedAt, completedAt, formatDate }) => {
     if (formattedStart && formattedEnd) {
       return (
         <>
-          <p>{formattedStart} to</p>
-          <p>{formattedEnd}</p>
+          <span>{formattedStart}  —  {formattedEnd}</span>
         </>
       );
     } else if (formattedStart) {
-      return <p>Started {formattedStart}</p>;
+      return <span>Started {formattedStart}</span>;
     } else if (formattedEnd) {
-      return <p>Finished {formattedEnd}</p>;
+      return <span>Finished {formattedEnd}</span>;
     } else {
-      return <p>N/A</p>;
+      return <span>N/A</span>;
     }
   };
 
@@ -39,7 +38,9 @@ const DateDisplay = ({ startedAt, completedAt, formatDate }) => {
           clipRule="evenodd"
         />
       </svg>
-      {renderDates()}
+      <div className="dates-list">
+        {renderDates()}
+      </div>
     </div>
   );
 };

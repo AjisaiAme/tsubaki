@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const ScoreDisplay = ({ score }) => {
   return (
-    <p className="score-container">
+    <div className="score-container">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -17,8 +17,8 @@ const ScoreDisplay = ({ score }) => {
           clipRule="evenodd"
         />
       </svg>
-      {score || 'N/A'}
-    </p>
+      <span className="score-text">{score || 'N/A'}</span>
+    </div>
   );
 };
 

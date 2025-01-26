@@ -30,29 +30,30 @@ const TagsDisplay = ({ tags }) => {
       </svg>
 
       {/* Display tags */}
-      {tagsToShow.map((tag, index) => {
-        // Ensure tag has the expected properties
-        if (!tag || !tag.name || !tag.rank) {
-          return null; // Skip invalid tags
-        }
+      <div className="tags-list">
+        {tagsToShow.map((tag, index) => {
+          // Ensure tag has the expected properties
+          if (!tag || !tag.name || !tag.rank) {
+            return null; // Skip invalid tags
+          }
 
-        return (
-          <span key={index} className="tag-item">
-            {tag.name} ({tag.rank}%)
-            {index < tagsToShow.length - 1 && ', '}
+          return (
+            <span key={index} className="tag-item">
+              {tag.name} ({tag.rank}%)
+            </span>
+          );
+        })}
+
+        {/* Show "Show More" or "Show Less" button */}
+        {remainingTagsCount > 0 && (
+          <span
+            className="show-more-button"
+            onClick={() => setShowAll(!showAll)}
+          >
+            {showAll ? 'Show Less' : `+${remainingTagsCount} more`}
           </span>
-        );
-      })}
-
-      {/* Show "Show More" or "Show Less" button */}
-      {remainingTagsCount > 0 && (
-        <span
-          className="show-more-button"
-          onClick={() => setShowAll(!showAll)}
-        >
-          {showAll ? 'Show Less' : `+${remainingTagsCount} more`}
-        </span>
-      )}
+        )}
+      </div>
     </div>
   );
 };

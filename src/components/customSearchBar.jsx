@@ -6,38 +6,39 @@ const SearchBar = ({ value = '', onSearch, placeholder = 'Search...', context = 
   const [query, setQuery] = useState(value);
 
   useEffect(() => {
-    setQuery(value); // Sync the internal state with the parent's value
+      console.log('SearchBar value updated:', value); // Debugging
+      setQuery(value); // Sync the internal state with the parent's value
   }, [value]);
 
   const handleChange = (event) => {
-    const newValue = event.target.value;
-    setQuery(newValue);
-    onSearch(newValue); // Pass the new value to the parent
+      const newValue = event.target.value;
+      setQuery(newValue); // Update local state
+      onSearch(newValue); // Pass the new value to the parent component
   };
 
   const handleClear = () => {
-    setQuery('');
-    onSearch('');
+      setQuery('');
+      onSearch(''); // Clear the search term in the parent
   };
 
   return (
-    <CustomSearchWrapper context={context}>
-      <div className="search-input__control">
-        <input
-          type="text"
-          className="search-input__text"
-          value={query}
-          onChange={handleChange}
-          placeholder={placeholder}
-          aria-label="Search"
-        />
-        {query && (
-          <button className="search-input__clear" onClick={handleClear} aria-label="Clear search">
-            &times;
-          </button>
-        )}
-      </div>
-    </CustomSearchWrapper>
+      <CustomSearchWrapper context={context}>
+          <div className="search-input__control">
+              <input
+                  type="text"
+                  className="search-input__text"
+                  value={query}
+                  onChange={handleChange}
+                  placeholder={placeholder}
+                  aria-label="Search"
+              />
+              {query && (
+                  <button className="search-input__clear" onClick={handleClear} aria-label="Clear search">
+                      &times;
+                  </button>
+              )}
+          </div>
+      </CustomSearchWrapper>
   );
 };
 

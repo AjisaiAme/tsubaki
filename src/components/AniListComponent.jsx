@@ -10,7 +10,7 @@ import DateDisplay from './anilist/dateDisplay';
 import GenreDisplay from './anilist/genreDisplay.jsx';
 import TagsDisplay from './anilist/tagsDisplay.jsx';
 import GenreFilter from './anilist/genreFilter.jsx';
-import SearchBar from './customSearchBar.jsx';
+import SearchBar from './customSearchBar.jsx'; // Ensure this is imported
 import CustomDropdown from '../components/customDropdown.jsx';
 
 const AniListComponent = () => {
@@ -131,20 +131,6 @@ const AniListComponent = () => {
             'Failed to fetch the anime list. Please try again later.'
           );
           setGenresWithCount([]);
-
-          // Retry fetching data after a delay
-          const retryFetch = async (retries = 3, delay = 1000) => {
-            if (retries > 0 && isMounted) {
-              setTimeout(() => {
-                console.log(`Retrying fetch... Attempts left: ${retries}`);
-                fetchAnimeList();
-              }, delay);
-            } else if (isMounted) {
-              setError('Failed to fetch data after multiple attempts.');
-            }
-          };
-
-          retryFetch();
         }
       } finally {
         if (isMounted) {
@@ -165,11 +151,12 @@ const AniListComponent = () => {
     };
   }, []); // Empty dependency array ensures this runs only once on mount
 
+  // Handle search term changes
   const handleSearchChange = useCallback((query) => {
-    console.log('Search term updated:', query); // Debugging: Check if this logs as you type
+    console.log('Search term updated:', query); // Debugging
     setSearchTerm(query);
-    setCurrentPage(1); // Reset to the first page when searching
-  }, []);
+    setCurrentPage(1);
+}, []);
 
   const formatDate = useCallback((date) => {
     if (!date || !date.year || !date.month || !date.day) return null;
@@ -204,33 +191,37 @@ const AniListComponent = () => {
     setCurrentPage(1);
   }, [handleClearSearch]);
 
+  // Filter the anime list based on search term, status, and genre
   const filteredAnimeList = useMemo(() => {
-    console.log('Filtering anime list with search term:', searchTerm); // Debugging: Check if this logs as you type
+    console.log('Filtering anime list with search term:', searchTerm); // Debugging
     return animeList.filter((entry) => {
-      const matchStatus = selectedStatus === 'ALL' || entry.status === selectedStatus;
-      const matchGenre = selectedGenre === '' || entry.media.genres.includes(selectedGenre);
-      const searchTermLower = searchTerm.toLowerCase();
-      const titleMatch =
-        (entry.media.title.romaji || '').toLowerCase().includes(searchTermLower) ||
-        (entry.media.title.english || '').toLowerCase().includes(searchTermLower);
-      const tagMatch = entry.media.tags.some((tag) => tag.name.toLowerCase().includes(searchTermLower));
-      return matchStatus && matchGenre && (titleMatch || tagMatch);
+        const matchStatus = selectedStatus === 'ALL' || entry.status === selectedStatus;
+        const matchGenre = selectedGenre === '' || entry.media.genres.includes(selectedGenre);
+        const searchTermLower = searchTerm.toLowerCase();
+        const titleMatch =
+            (entry.media.title.romaji || '').toLowerCase().includes(searchTermLower) ||
+            (entry.media.title.english || '').toLowerCase().includes(searchTermLower);
+        const tagMatch = entry.media.tags.some((tag) => tag.name.toLowerCase().includes(searchTermLower));
+        return matchStatus && matchGenre && (titleMatch || tagMatch);
     });
-  }, [animeList, selectedStatus, selectedGenre, searchTerm]);
+}, [animeList, selectedStatus, selectedGenre, searchTerm]);
 
+  // Sort the filtered anime list
   const sortedAnimeList = useMemo(() => {
+    console.log('Sorting anime list by:', sortBy); // Debugging
     return [...filteredAnimeList].sort((a, b) => {
-      if (sortBy === 'title') {
-        return a.media.title.romaji.localeCompare(b.media.title.romaji);
-      } else if (sortBy === 'score') {
-        return b.score - a.score;
-      } else if (sortBy === 'progress') {
-        return b.progress - a.progress;
-      }
-      return 0;
+        if (sortBy === 'title') {
+            return a.media.title.romaji.localeCompare(b.media.title.romaji);
+        } else if (sortBy === 'score') {
+            return b.score - a.score;
+        } else if (sortBy === 'progress') {
+            return b.progress - a.progress;
+        }
+        return 0;
     });
-  }, [filteredAnimeList, sortBy]);
+}, [filteredAnimeList, sortBy]);
 
+  // Pagination logic
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = sortedAnimeList.slice(startIndex, startIndex + itemsPerPage);
 
@@ -240,12 +231,12 @@ const AniListComponent = () => {
         <h3>MANGA LIST</h3>
         <div className="header-wrap">
           <div className="search-container">
-            <SearchBar
-              value={searchTerm} // Pass search term state
-              onSearch={handleSearchChange} // Pass search handler
+          <SearchBar
+              value={searchTerm}
+              onSearch={handleSearchChange}
               placeholder="Search by Title or Tag"
               context="parameters"
-            />
+          />
           </div>
           <div className="filter-container">
             <CustomDropdown
@@ -325,19 +316,13 @@ const AniListComponent = () => {
                       <ScoreDisplay score={entry.score || 0} />
                       <ProgressDisplay progress={entry.progress || 0} chapters={entry.media.chapters || 0} />
                     </div>
-                    <div className="date-container">
                       <DateDisplay
                         startedAt={entry.startedAt}
                         completedAt={entry.completedAt}
                         formatDate={formatDate}
                       />
-                    </div>
-                    <div className="genres-container">
                       <GenreDisplay genres={entry.media.genres} />
-                    </div>
-                    <div className="tags-container">
                       <TagsDisplay tags={entry.media.tags || []} />
-                    </div>
                   </div>
                 </li>
               ))

@@ -493,39 +493,93 @@ body {
     flex-direction: row;
     align-items: center;
     gap: 10px;
-}
-
-/* Containers for Icons and Text */
-.score-container, .progress-container, .date-container, .genres-container, .tags-container {
+  }
+  
+ /* User Stats */
+.user-stats {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 5px;
-    font-size: 0.9rem;
-    margin: 2px 0;
-}
-    .tags-container span {
-        font-size: 0.7rem;
-    }
-
-
-/* Icon Styling */
-.score-icon, .progress-icon, .genre-icon, .calendar-icon, .tags-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 2px;
-    fill: var(--primary-color);
-    overflow: hidden;
-    flex-shrink: 0;
+    gap: 10px;
+  }
+  
+ /* Container Styles */
+.score-container,
+.progress-container,
+.date-container,
+.genres-container,
+.tags-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  margin: 2px 0;
 }
 
-    .show-more-button {
-        color: var(--primary-color);
-    }
+/* Specific font size adjustment for tags and dates */
+.tags-container span,
+.dates-list span {
+  font-size: 0.7rem;
+}
 
-    .show-more-button:hover {
-        text-decoration: underline;
-    }
+/* Icon Styles */
+.score-icon,
+.progress-icon,
+.genre-icon,
+.calendar-icon,
+.tags-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+  fill: var(--primary-color);
+  overflow: hidden;
+  flex-shrink: 0;
+}
 
+/* Show More Button Styles */
+.genres-container .show-more-button,
+.tags-container .show-more-button {
+  color: var(--primary-color);
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 2px 6px;
+}
+
+.show-more-button:hover {
+  text-decoration: underline;
+}
+
+/* List Styles */
+.genres-list,
+.tags-list,
+.dates-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px 4px;
+}
+
+/* Item Styles */
+.genre-item,
+.tag-item,
+.dates-list span,
+.score-text,
+.progress-text span {
+  padding: 2px 4px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.8rem;
+}
+
+.genre-item:hover,
+.tag-item:hover,
+.dates-list span:hover,
+.score-text:hover,
+.progress-text span:hover {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border-radius: 0px;
+}
+  
 .page-info {
     font-size: 14px;
     font-weight: bold;
