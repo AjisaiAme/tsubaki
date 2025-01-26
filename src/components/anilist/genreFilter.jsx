@@ -1,21 +1,19 @@
-import React from 'react';
-import CustomDropdown from '../customDropdown.jsx';
+import React from "react";
+import CustomDropdown from "../customDropdown.jsx";
 
-const GenreFilter = ({ genresWithCount, selectedGenre, handleGenreChange }) => {
-    // Add "All Genres" as the default option
+const GenreFilter = ({ genresWithCount = [], selectedGenre, handleGenreChange, handleMenuClose, handleBlur }) => {
     const genreOptions = [
-        { value: '', label: 'All Genres', key: 'all' }, // Default option for all genres
-        ...genresWithCount.map((genre, index) => ({
+        { value: "", label: "All Genres", key: "all" }, // Default option for all genres
+        ...(Array.isArray(genresWithCount) ? genresWithCount.map((genre, index) => ({
             value: genre.genre,
             label: `${genre.genre} (${genre.count})`,
-            key: index
-        }))
+            key: index,
+        })) : []),
     ];
 
-    // Handle case when selectedGenre is empty (no genre selected)
     const selectedValue = selectedGenre
-        ? genreOptions.find(option => option.value === selectedGenre)
-        : genreOptions[0]; // Default to "All Genres" when nothing is selected
+        ? genreOptions.find((option) => option.value === selectedGenre)
+        : genreOptions[0];
 
     return (
         <div className="genre-filter">
@@ -24,6 +22,8 @@ const GenreFilter = ({ genresWithCount, selectedGenre, handleGenreChange }) => {
                 placeholder="Select Genre"
                 onChange={handleGenreChange}
                 value={selectedValue}
+                onMenuClose={handleMenuClose} // Pass handleMenuClose to reset on menu close
+                onBlur={handleBlur} // Pass handleBlur to reset on blur
             />
         </div>
     );

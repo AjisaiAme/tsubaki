@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 const CustomDropdownWrapper = styled.div`
   width: 200px !important;
 
-  z-index: 10 !important; /* Ensure it is above the glyph */
+  z-index: 99 !important; /* Ensure it is above the glyph */
 
   /* Style for the control (dropdown button) */
   .react-select__control {

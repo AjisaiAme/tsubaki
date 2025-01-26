@@ -229,6 +229,10 @@ body {
    AniList Components
 ---------------------------- */
 
+.loading-text {
+    color: var(--primary-color);
+}
+
 * {
     box-sizing: border-box;
 }
@@ -286,7 +290,8 @@ body {
     align-items: center;
 }
 
-.header-wrap .filter-container select {
+.header-wrap .filter-container select,
+.header-wrap .filter-container .reset-button {
     padding: 10px;
     font-size: 16px;
     font-family: var(--font-family);
@@ -297,15 +302,25 @@ body {
     box-shadow: var(--blocky-shadow);
     appearance: none;
     transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 10;
 }
 
 .header-wrap .filter-container select:hover,
-.header-wrap .filter-container select:focus {
+.header-wrap .filter-container select:focus,
+.header-wrap .filter-container .reset-button:hover {
     border-color: var(--primary-color);
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     box-shadow: var(--hover-blocky-shadow);
+    color: var(--background-color);
 }
 
+/* Reset Button Specific Styles */
+.header-wrap .filter-container .reset-button {
+    width: 120px; /* Match the width of dropdown buttons */
+    text-align: center; /* Center the text inside the button */
+    color: var(--primary-color);
+}
 /* Reset Button */
 .reset-button {
     display: flex;
@@ -464,16 +479,20 @@ body {
 }
 
 /* Containers for Icons and Text */
-.score-container, .progress-container, .date-container, .genres-container {
+.score-container, .progress-container, .date-container, .genres-container, .tags-container {
     display: flex;
     align-items: center;
     gap: 5px;
     font-size: 0.9rem;
     margin: 2px 0;
 }
+    .tags-container span {
+        font-size: 0.7rem;
+    }
+
 
 /* Icon Styling */
-.score-icon, .progress-icon, .genre-icon, .calendar-icon {
+.score-icon, .progress-icon, .genre-icon, .calendar-icon, .tags-icon {
     width: 16px;
     height: 16px;
     margin-right: 2px;
@@ -481,6 +500,14 @@ body {
     overflow: hidden;
     flex-shrink: 0;
 }
+
+    .show-more-button {
+        color: var(--primary-color);
+    }
+
+    .show-more-button:hover {
+        text-decoration: underline;
+    }
 
 .page-info {
     font-size: 14px;

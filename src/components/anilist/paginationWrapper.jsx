@@ -10,6 +10,8 @@ const PaginationWrapper = styled.div`
     font-size: 16px;
     height: 44px;
     justify-content: center;
+    position: relative; /* Required for z-index to work */
+    z-index: 10; /* Add z-index here */
   }
 
   button {
@@ -23,11 +25,14 @@ const PaginationWrapper = styled.div`
     width: 120px;
     transition: background-color 0.3s, color 0.3s, box-shadow 0.3s ease-out;
     box-shadow: 6px 6px 0px var(--primary-color);
+    position: relative; /* Required for z-index to work */
+    z-index: 5; /* Add z-index here */
 
     &:disabled {
-      background-color: #e0e0e0;
+      background-color: var(--background-color);
       cursor: not-allowed;
       box-shadow: none;
+      z-index: 5; /* Ensure disabled buttons have the same z-index */
     }
 
     &:hover:not(:disabled) {
@@ -42,12 +47,16 @@ const PaginationWrapper = styled.div`
     font-size: 16px;
     text-align: center;
     display: inline-block; /* Keeps the text and input in line */
+    position: relative; /* Required for z-index to work */
+    z-index: 5; /* Add z-index here */
   }
 
   .page-input-wrapper {
     display: inline-block;
     display: flex;
     align-items: center;
+    position: relative; /* Required for z-index to work */
+    z-index: 5; /* Add z-index here */
   }
 
   .page-input-wrapper input {
@@ -60,6 +69,8 @@ const PaginationWrapper = styled.div`
     color: var(--primary-color);
     background-color: var(--background-color);
     transition: border-color 0.3s;
+    position: relative; /* Required for z-index to work */
+    z-index: 5; /* Add z-index here */
 
     &:focus {
       border-color: var(--primary-color-dark);

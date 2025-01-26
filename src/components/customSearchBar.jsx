@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CustomSearchWrapper from "../styles/customSearchWrapper"; // Corrected import
+import CustomSearchWrapper from "../styles/customSearchWrapper";
 
 const SearchBar = ({ onSearch, placeholder = "Search...", context = "" }) => {
   const [query, setQuery] = useState("");
@@ -7,7 +7,7 @@ const SearchBar = ({ onSearch, placeholder = "Search...", context = "" }) => {
   // Handle search input change
   const handleChange = (event) => {
     setQuery(event.target.value);
-    onSearch(event.target.value); // Notify parent component when search query changes
+    onSearch(event.target.value);
   };
 
   // Clear search input
@@ -24,7 +24,7 @@ const SearchBar = ({ onSearch, placeholder = "Search...", context = "" }) => {
           className="search-input__text"
           value={query}
           onChange={handleChange}
-          placeholder={placeholder} // Placeholder passed as prop
+          placeholder={placeholder}
         />
         {query && (
           <button className="search-input__clear" onClick={handleClear}>
