@@ -86,14 +86,14 @@ body {
         transform: translateY(-2px);
     }
 
-:root[data-theme="starpeggio"] .anilist-list-item {
-    background-color: var(--background-color);
-    border: 3px solid var(--accent-color);
-    border-radius: 0px;
-    padding: 16px;
-    transition: all 0.3s ease;
-    box-shadow: none;
-}
+    :root[data-theme="starpeggio"] .anilist-list-item {
+        background-color: var(--background-color);
+        border: 3px solid var(--accent-color);
+        border-radius: 0px;
+        padding: 16px;
+        transition: all 0.3s ease;
+        box-shadow: none;
+    }
 
     :root[data-theme="starpeggio"] .anilist-list-item .anilist-cover {
         border-radius: 0;
@@ -120,110 +120,108 @@ body {
         text-decoration: underline;
     }
     
-:root[data-theme="supernova"] .anilist-list-item {
-    background-color: var(--background-color);
-    border: 1px solid var(--primary-color);
-    color: var(--neutral-color);
-    border-radius: 0px;
-    padding: 16px;
-    transition: all 0.3s ease;
-    box-shadow: none;
-    z-index: 2;
-}
-
-:root[data-theme="supernova"] .container > h3 {
-    --font-family: "Cormorant", serif;
-    color: var(--primary-color);
-    font-size: 42px;
-}
-
-
-:root[data-theme="supernova"] {
-    --primary-color: #C69C6D;
-    --background-color: #1A1A1A;
-    --accent-color: var(--primary-color);
-    --neutral-color: #D1D1D1;
-    --background-image: url('../assets/supernova/supernova-bg.webp'); /* Background Image */
-    --glyph-image: url('../assets/supernova/supernova-bg-object.svg'); /* Glyph Image */
-    --font-family: 'Noto Sans JP', sans-serif;
-}
-
-@keyframes spin {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
+    :root[data-theme="supernova"] .anilist-list-item {
+        background-color: var(--background-color);
+        border: 1px solid var(--primary-color);
+        color: var(--neutral-color);
+        border-radius: 0px;
+        padding: 16px;
+        transition: all 0.3s ease;
+        box-shadow: none;
+        z-index: 2;
     }
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
+
+    :root[data-theme="supernova"] .container > h3 {
+        --font-family: "Cormorant", serif;
+        color: var(--primary-color);
+        font-size: 42px;
     }
-}
 
-:root[data-theme="supernova"] .page-content {
-    background-color: var(--background-color);
-    background-image: var(--background-image);
-    background-size: auto;
-    background-repeat: repeat;
-    background-position: top left;
-    background-attachment: fixed;
-    padding: 20px;
-    position: relative;
-}
+    :root[data-theme="supernova"] {
+        --primary-color: #C69C6D;
+        --background-color: #1A1A1A;
+        --accent-color: var(--primary-color);
+        --neutral-color: #D1D1D1;
+        --background-image: url('../assets/supernova/supernova-bg.webp'); /* Background Image */
+        --glyph-image: url('../assets/supernova/supernova-bg-object.svg'); /* Glyph Image */
+        --font-family: 'Noto Sans JP', sans-serif;
+    }
 
-:root[data-theme="supernova"] .page-content::before {
-    content: "";
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100vw;
-    height: 100vh;
-    background-image: var(--glyph-image);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    transform: translate(-50%, -50%);
-    animation: spin 90s linear infinite;
-    z-index: 1;
-    pointer-events: none;
-}
+    @keyframes spin {
+        from {
+            transform: rotate(0deg); /* Only rotate without translate to prevent resizing */
+        }
+        to {
+            transform: rotate(360deg); /* Only rotate without translate to prevent resizing */
+        }
+    }
 
-/* Specific styles for Anilist items */
-:root[data-theme="supernova"] .anilist-list-item {
-    background-color: var(--background-color);
-    border: 1px solid var(--primary-color);
-    color: var(--neutral-color);
-    border-radius: 0px;
-    padding: 16px;
-    transition: all 0.3s ease;
-    box-shadow: none;
-}
+    :root[data-theme="supernova"] .page-content {
+        background-color: var(--background-color);
+        background-image: var(--background-image);
+        background-size: auto;
+        background-repeat: repeat;
+        background-position: top left;
+        background-attachment: fixed;
+        padding: 20px;
+        position: relative;
+    }
 
-:root[data-theme="supernova"] .anilist-list-item .anilist-cover {
-    border-radius: 0;
-}
+    :root[data-theme="supernova"] .page-content::before {
+        content: "";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 100vw;
+        height: 100vw; /* Use width for both dimensions to maintain 1:1 aspect ratio */
+        background-image: var(--glyph-image);
+        background-size: contain; /* Use contain to keep the aspect ratio */
+        background-repeat: no-repeat;
+        background-position: center center;
+        transform: translate(-50%, -50%);
+        animation: spin 90s linear infinite;
+        z-index: 1;
+        pointer-events: none;
+    }
 
-:root[data-theme="supernova"] .anilist-list-item h3 a {
-    color: var(--primary-color);
-    font-size: 24px;
-    font-family: 'Cormorant', serif;
-    font-optical-sizing: auto;
-    font-weight: bold;
-    font-style: normal;
-}
+    /* Specific styles for Anilist items */
+    :root[data-theme="supernova"] .anilist-list-item {
+        background-color: var(--background-color);
+        border: 1px solid var(--primary-color);
+        color: var(--neutral-color);
+        border-radius: 0px;
+        padding: 16px;
+        transition: all 0.3s ease;
+        box-shadow: none;
+    }
 
-:root[data-theme="supernova"] .anilist-list-item .entry-title p {
-    font-family: 'Cormorant', serif;
-    font-size: 16px;
-}
+    :root[data-theme="supernova"] .anilist-list-item .anilist-cover {
+        border-radius: 0;
+    }
 
-:root[data-theme="supernova"] .anilist-list-item .anilist-details p {
-    color: var(--neutral-color);
-}
+    :root[data-theme="supernova"] .anilist-list-item h3 a {
+        color: var(--primary-color);
+        font-size: 24px;
+        font-family: 'Cormorant', serif;
+        font-optical-sizing: auto;
+        font-weight: bold;
+        font-style: normal;
+    }
 
-:root[data-theme="supernova"] .anilist-list-item:hover .anilist-details h3 a {
-    color: var(--primary-color) !important;
-    transition: color 0.3s ease; 
-    text-decoration: underline;
-}
+    :root[data-theme="supernova"] .anilist-list-item .entry-title p {
+        font-family: 'Cormorant', serif;
+        font-size: 16px;
+    }
 
+    :root[data-theme="supernova"] .anilist-list-item .anilist-details p {
+        color: var(--neutral-color);
+    }
+
+    :root[data-theme="supernova"] .anilist-list-item:hover .anilist-details h3 a {
+        color: var(--primary-color) !important;
+        transition: color 0.3s ease; 
+        text-decoration: underline;
+    }
 
 /* ----------------------------
    AniList Components

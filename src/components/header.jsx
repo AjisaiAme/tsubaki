@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/header.css';
 import '../styles/theme.css';
-
-import logo from '../assets/icons/logo.svg';
 import CustomDropdown from '../components/customDropdown.jsx'; // Adjust the path accordingly
 
 // Themes object for easy mapping
@@ -108,9 +106,13 @@ const Header = () => {
                             checked={isDarkMode} 
                             onChange={toggleDarkMode}
                         />
+                        {/* 
+                         
                         <label htmlFor="dark-mode-toggle" className="toggle-label">
                             <span className="toggle-switch"></span>
                         </label>
+
+                        */}
                     </div>
                 </div>
                     <CustomDropdown
