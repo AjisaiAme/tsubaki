@@ -1,14 +1,10 @@
-import styled, { css } from "styled-components";
+import React, { useRef } from "react";
+import styled from "styled-components";
 
-/**
- * Custom styled wrapper for the search input
- */
 const CustomSearchWrapper = styled.div`
-  /* Force a new stacking context for the search input wrapper */
-  position: relative; /* Create a new stacking context */
-  z-index: 20; /* Ensure the search input is above the glyph */
+  position: relative;
+  z-index: 20;
 
-  /* Style for the input wrapper */
   .search-input__control {
     display: flex;
     align-items: center;
@@ -22,62 +18,131 @@ const CustomSearchWrapper = styled.div`
     width: 100%;
     height: 44px;
     transition: all 0.3s ease;
+    z-index: 21;
 
-    z-index: 21; /* Ensure the control is above the wrapper */
-    
-    /* Focused or opened state for the control */
     &:focus-within {
       box-shadow: 8px 8px 0px var(--primary-color);
       background-color: var(--primary-color);
       color: var(--background-color);
-      border: 2px solid var(--secondary-color);
+      border: 2px solid var(--background-color);
     }
   }
 
-  /* Style for the input text field */
+  .search-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--primary-color);
+      transition: fill 0.3s ease;
+    }
+  }
+
+  .search-input__control:focus-within .search-icon-container svg {
+    fill: var(--background-color);
+  }
+
   .search-input__text {
+    background-color: transparent;
     width: 100%;
     padding: 10px;
     border: none;
     outline: none;
-    background-color: transparent;
     color: var(--primary-color);
     font-size: 16px;
-    transition: color 0.3s ease;
+    z-index: 22;
+    transition: all 0.3s ease;
 
     ::placeholder {
       color: var(--primary-color);
+      transition: color 0.3s ease;
     }
 
     &:focus {
       color: var(--background-color);
     }
-
-    z-index: 22; /* Ensure the text is above the control */
   }
 
-  /* Style for the clear button */
+  .search-icon {
+    margin-right: 10px;
+    fill: var(--primary-color);
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
   .search-input__clear {
     background: none;
     border: none;
     color: var(--primary-color);
-    font-size: 20px;
+    font-size: 24px;
     cursor: pointer;
-    transition: color 0.2s ease;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 23;
+    transition: all 0.3s ease;
 
     &:hover {
-      color: var(--secondary-color);
+      transform: scale(1.2);
     }
+  }
 
-    z-index: 23; /* Ensure the clear button is above the text field */
+  .search-input__control:focus-within .search-input__clear {
+    color: var(--background-color);
   }
 
   ${(props) =>
     props.context === "parameters" &&
     css`
-      width: 100%;
-      background-color: var(--secondary-color);
+      .search-input__control {
+        width: 100%;
+        background-color: var(--background-color);
+      }
     `}
 `;
 
-export default CustomSearchWrapper;
+const CustomSearchInput = () => {
+  const inputRef = useRef(null);
+
+  const handleClearClick = (e) => {
+    e.preventDefault();
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      inputRef.current.focus();
+    }
+  };
+
+  return (
+    <CustomSearchWrapper>
+      <div className="search-input__control">
+        <div className="search-icon-container">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="search-icon"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+        <input
+          type="text"
+          className="search-input__text"
+          placeholder="Search for titles, genres, tags..."
+          ref={inputRef}
+        />
+        <button className="search-input__clear" onClick={handleClearClick}>&times;</button>
+      </div>
+    </CustomSearchWrapper>
+  );
+};
+
+export default CustomSearchInput;

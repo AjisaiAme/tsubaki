@@ -1,19 +1,23 @@
-import React, { useState } from "react";
-import CustomSearchWrapper from "../styles/customSearchWrapper";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import CustomSearchWrapper from '../styles/customSearchWrapper';
 
-const SearchBar = ({ onSearch, placeholder = "Search...", context = "" }) => {
-  const [query, setQuery] = useState("");
+const SearchBar = ({ value = '', onSearch, placeholder = 'Search...', context = '' }) => {
+  const [query, setQuery] = useState(value);
 
-  // Handle search input change
+  useEffect(() => {
+    setQuery(value); // Sync the internal state with the parent's value
+  }, [value]);
+
   const handleChange = (event) => {
-    setQuery(event.target.value);
-    onSearch(event.target.value);
+    const newValue = event.target.value;
+    setQuery(newValue);
+    onSearch(newValue); // Pass the new value to the parent
   };
 
-  // Clear search input
   const handleClear = () => {
-    setQuery("");
-    onSearch(""); // Notify parent component when clearing the search query
+    setQuery('');
+    onSearch('');
   };
 
   return (
@@ -25,15 +29,23 @@ const SearchBar = ({ onSearch, placeholder = "Search...", context = "" }) => {
           value={query}
           onChange={handleChange}
           placeholder={placeholder}
+          aria-label="Search"
         />
         {query && (
-          <button className="search-input__clear" onClick={handleClear}>
+          <button className="search-input__clear" onClick={handleClear} aria-label="Clear search">
             &times;
           </button>
         )}
       </div>
     </CustomSearchWrapper>
   );
+};
+
+SearchBar.propTypes = {
+  value: PropTypes.string,
+  onSearch: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  context: PropTypes.string,
 };
 
 export default SearchBar;

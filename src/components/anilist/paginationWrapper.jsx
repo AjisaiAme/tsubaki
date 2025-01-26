@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styled, { css } from "styled-components";
+import PropTypes from 'prop-types';
+
 
 // Styled pagination wrapper
 const PaginationWrapper = styled.div`
@@ -82,37 +84,34 @@ const PaginationWrapper = styled.div`
 const Pagination = ({ filteredAnimeList, itemsPerPage, currentPage, setCurrentPage }) => {
   const totalPages = Math.ceil(filteredAnimeList.length / itemsPerPage);
 
-  const handlePageChange = (action) => {
+  const handlePageChange = useCallback((action) => {
     switch (action) {
-      case "prev":
+      case 'prev':
         if (currentPage > 1) setCurrentPage(currentPage - 1);
         break;
-      case "next":
+      case 'next':
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
         break;
       default:
         break;
     }
-  };
+  }, [currentPage, totalPages, setCurrentPage]);
 
-  const handleCustomPageChange = (e) => {
+  const handleCustomPageChange = useCallback((e) => {
     const page = parseInt(e.target.value, 10);
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
-  };
+  }, [totalPages, setCurrentPage]);
 
   return (
     <PaginationWrapper>
       <div className="pagination-controls">
-        {/* Previous Button */}
         <button
-          onClick={() => handlePageChange("prev")}
+          onClick={() => handlePageChange('prev')}
           disabled={currentPage === 1}
-          title="Go to Previous Page"
+          aria-label="Go to Previous Page"
         >
           Previous
         </button>
-
-        {/* Page Information and Input */}
         <div className="page-input-wrapper">
           <span className="page-info">
             Page
@@ -123,23 +122,28 @@ const Pagination = ({ filteredAnimeList, itemsPerPage, currentPage, setCurrentPa
               onChange={handleCustomPageChange}
               min={1}
               max={totalPages}
-              title="Enter a page number"
+              aria-label="Enter a page number"
             />
             of {totalPages}
           </span>
         </div>
-
-        {/* Next Button */}
         <button
-          onClick={() => handlePageChange("next")}
+          onClick={() => handlePageChange('next')}
           disabled={currentPage === totalPages}
-          title="Go to Next Page"
+          aria-label="Go to Next Page"
         >
           Next
         </button>
       </div>
     </PaginationWrapper>
   );
+};
+
+Pagination.propTypes = {
+  filteredAnimeList: PropTypes.array.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
 };
 
 export default Pagination;

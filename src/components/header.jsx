@@ -113,9 +113,9 @@ const Header = () => {
                         </label>
                     </div>
                 </div>
-                <CustomDropdown
+                    <CustomDropdown
                         options={themeOptions}
-                        value={theme}
+                        value={themeOptions.find((option) => option.value === theme)}
                         onChange={handleThemeChange}
                         placeholder={theme}
                     />

@@ -374,6 +374,23 @@ body {
     padding: 0;
 }
 
+.anilist-list h3 {
+    font-family: var(--font-family);
+    font-size: 36px;
+    color: var(--primary-color);
+    text-align: center; /* Ensure text within h3 is center-aligned */
+  }
+  
+  .message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Take full width of parent container */
+    height: 100%; /* Take full height of parent container */
+    text-align: center; /* Center text within message container */
+  }
+  
+
 .anilist-list-item {
     position: relative;
     display: flex;
