@@ -1,0 +1,163 @@
+/* landing.css */
+
+/* Define CSS Variables */
+.landing-page {
+    --primary-color: #D82C51;
+    --accent-color: #C2A180;
+    --background-color: #1E1E1E;
+    --neutral-color: #F5F5F5;
+
+    --block-shadow: 6px 6px 0px var(--accent-color);
+    --hover-block-shadow: 8px 8px 0px var(--accent-color);
+
+    padding: 0 0 !important;
+    font-family: 'Aller', sans-serif !important;
+    display: flex;
+}
+
+/* Hero Section */
+.hero-container {
+    display: flex;
+}
+
+.main {
+    width: 100%;
+}
+
+.main-img {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    font-size: 3rem !important;
+    color: var(--primary-color) !important;
+    text-align: left !important;
+    font-family: 'Aller', sans-serif !important;
+}
+
+span {
+    display: inline-block !important;
+}
+
+.subheader {
+    color: var(--accent-color) !important;
+    font-size: 52px;
+    line-height: 1;
+}
+
+.description {
+    color: var(--neutral-color) !important;
+    font-size: 24px;
+}
+
+.action {
+    display: flex;
+    gap: 20px;
+}
+
+.action a {
+    color: var(--neutral-color);
+    padding: 12px 18px;
+}
+
+.action .button-primary {
+    background-color: var(--primary-color);
+    color: var(--neutral-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.action .button-primary:hover {
+    background-color: var(--neutral-color);
+    color: var(--primary-color);
+}
+
+.action .button-secondary {
+    background-color: var(--background-color);
+    color: var(--accent-color);
+    box-shadow: inset 0 0 0 2px var(--accent-color);
+    transition: box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.action .button-secondary:hover {
+    color: var(--primary-color);
+    box-shadow: inset 0 0 0 2px var(--primary-color);
+}
+
+.feature-container {
+    padding: 28px 0;
+}
+
+.feature-card-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 28px 0;
+}
+
+.feature-title {
+    line-height: 1;
+}
+
+.feature-title span {
+    font-size: 24px;
+    color: var(--accent-color);
+}
+
+.feature-subheader {
+    font-size: 20px;
+    padding-top: 8px;
+    color: var(--neutral-color);
+}
+
+/* Feature Cards */
+.feature-items {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.card {
+    border-radius: 10px;
+    width: calc(30%);
+    flex-grow: 1;
+    text-align: left;
+    box-shadow: inset 0 0 0 2px var(--accent-color);
+    padding: 16px;
+    border-radius: 0;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: var(--hover-block-shadow), 0 0 0 2px var(--accent-color);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.card h3 {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+.card p {
+    color: var(--neutral-color);
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 100%;
+    }
+}

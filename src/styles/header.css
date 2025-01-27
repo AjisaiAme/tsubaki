@@ -4,7 +4,7 @@
     --header-height: 8vh; /* Default header height */
     --header-padding: 1rem; /* Padding for header content */
     --logo-size: calc(var(--header-height) * 0.6); /* Logo size relative to header height */
-    --link-padding: calc(var(--header-height) * 0.2); /* Padding for links */
+    --link-padding: calc(var(--header-height) * 0.3); /* Padding for links */
     --min-header-height: 60px; /* Minimum height for the header */
   }
   

@@ -45,7 +45,7 @@ body {
         background-color: var(--secondary-color);
         border: 2px solid var(--primary-color);
         box-shadow: var(--blocky-shadow);
-        border-radius: 0px; /* Sharp corners for a blocky feel */
+        border-radius: 0px;
         padding: 16px;
         transition: all 0.3s ease;
     }
@@ -473,8 +473,9 @@ body {
 .anilist-list-item:hover .score-icon,
 .anilist-list-item:hover .progress-icon,
 .anilist-list-item:hover .calendar-icon,
-.anilist-list-item:hover .genre-icon {
-    fill: var(--primary-color);
+.anilist-list-item:hover .genre-icon, 
+.anilist-list-item:hover .tags-icon{
+    fill: var(--neutral-color);
 }
 
 /* Cover Image */

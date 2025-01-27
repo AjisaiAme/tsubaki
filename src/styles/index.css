@@ -18,7 +18,7 @@
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding-top: 72px;
+  padding-top: 100px;
   padding-left: 100px;
   padding-right: 100px;
 
@@ -41,11 +41,6 @@ body {
   justify-content: center; /* Optional: Center all content horizontally */
   align-items: flex-start; /* Align content to the top of the page */
   background-color: var(--background-color);
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {

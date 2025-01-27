@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/header.css';
 import '../styles/theme.css';
 import CustomDropdown from '../components/customDropdown.jsx'; // Adjust the path accordingly
@@ -8,12 +9,10 @@ const themes = {
     light: 'light',
     lightMia: 'light-mia',
     manga: 'manga',
-    dark: 'dark',
-    darkHerta: 'dark-herta',
-    darkPhospho: 'dark-phospho',
 
     starpeggio: 'starpeggio',
     supernova: 'supernova',
+    yamashiro: 'yamashiro',
 };
 
 const Header = () => {
@@ -43,16 +42,16 @@ const Header = () => {
 
     // Dropdown options for react-select
     const themeOptions = [
-        { value: themes.light, label: 'Light' },
-        { value: themes.manga, label: 'Manga' },
-        { value: themes.lightMia, label: 'Mia' },
-        { value: themes.dark, label: 'Dark' },
-        { value: themes.darkHerta, label: 'Herta' },
-        { value: themes.darkPhospho, label: 'Phospho' },
+        { value: themes.light, label: 'light' },
+        { value: themes.manga, label: 'manga' },
+        { value: themes.lightMia, label: 'mia' },
 
         /* Stylized Themes - Suisei */
         { value: themes.starpeggio, label: 'starpeggio' },
         { value: themes.supernova, label: 'supernova' },
+
+        { value: themes.yamashiro, label: 'yamashiro' },
+
     ];
     return (
         <header className="site-header">
@@ -96,7 +95,7 @@ const Header = () => {
                         <span>last.fm</span>
                         <span></span>
                     </a>
-            </div>
+                </div>
                 <div className="icons">
                     <div className="toggle-container">
                         <input 

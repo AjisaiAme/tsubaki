@@ -29,36 +29,6 @@
 }
 
 /* ----------------------------
-   Dark Mode (Basic Theme)
----------------------------- */
-:root[data-theme="dark"] {
-    /* Core Colors */
-    --background-color: #1e1e2f; /* Dark slate background */
-    --text-color: #d1d1e0; /* Soft light gray text */
-    --primary-color: #cfcfcf; /* Light gray for primary actions */
-    --primary-color-rgb: 207, 207, 207; /* RGB equivalent of #cfcfcf */
-    --secondary-color: #7a7a7a; /* Darker gray for secondary elements */
-    --neutral-color: #282c35; /* Darker neutral color for borders */
-
-    /* Header Colors */
-    --header-background-color: #202030; /* Darker header background */
-    --header-text-color: var(--text-color); /* Light gray header text */
-    --header-link-hover-color: var(--primary-color); /* Hover color for links in header */
-
-    /* Border Colors */
-    --border-color: var(--neutral-color); /* Dark borders */
-
-    /* Button Colors */
-    --button-background-color: var(--neutral-color); /* Dark button background */
-    --button-text-color: var(--text-color); /* Light gray button text */
-    --button-hover-background-color: var(--primary-color); /* Light gray hover effect */
-
-    /* Link Colors */
-    --link-color: var(--primary-color); /* Primary link color */
-    --link-hover-color: var(--secondary-color); /* Secondary link hover color */
-}
-
-/* ----------------------------
    Custom Themes
 ---------------------------- */
 
@@ -133,59 +103,6 @@ body {
     --font-family: 'Overpass', sans-serif;
 }
 
-/* Dark Herta Theme */
-:root[data-theme="dark-herta"] {
-    /* Core Colors */
-    --primary-color: #8400db; /* Purple accent */
-    --primary-color-rgb: 132, 0, 219; /* RGB equivalent of #8400db */
-    --secondary-color: #24272d; /* Dark gray background */
-    --accent-color: #353650; /* Dark blue-gray */
-    --background-color: #24212f; /* Darker background */
-    --neutral-color: #d9d9d9; /* Light neutral for text and borders */
-
-    /* Text Colors */
-    --text-color: var(--neutral-color); /* Neutral text color */
-    --header-text-color: var(--neutral-color); /* Matching header text */
-    --header-link-hover-color: var(--primary-color); /* Purple hover links */
-
-    /* Header Colors */
-    --header-background-color: var(--background-color); /* Dark header background */
-
-    /* Button Variables */
-    --button-background-color: var(--secondary-color); /* Dark gray button background */
-    --button-text-color: var(--neutral-color); /* Light text on buttons */
-    --button-hover-background-color: var(--primary-color); /* Purple hover effect */
-
-    /* Border Colors */
-    --border-color: #333333; /* Dark borders */
-}
-
-/* Dark Phospho Theme */
-:root[data-theme="dark-phospho"] {
-    /* Core Colors */
-    --primary-color: #27e9b5; /* Phosphorescent green */
-    --primary-color-rgb: 39, 233, 181; /* RGB equivalent of #27e9b5 */
-    --secondary-color: #3b5265; /* Muted blue-gray */
-    --accent-color: #162936; /* Deep blue-green accent */
-    --background-color: #051824; /* Dark navy/teal */
-    --neutral-color: #d9d9d9; /* Light neutral for text and contrast */
-
-    /* Text Colors */
-    --text-color: var(--neutral-color); /* Light text color */
-    --header-text-color: var(--neutral-color); /* Matching header text */
-    --header-link-hover-color: var(--primary-color); /* Green hover links */
-
-    /* Header Colors */
-    --header-background-color: var(--background-color); /* Dark header background */
-
-    /* Button Variables */
-    --button-background-color: var(--secondary-color); /* Muted blue-gray button background */
-    --button-text-color: var(--neutral-color); /* Light text on buttons */
-    --button-hover-background-color: var(--primary-color); /* Green hover effect */
-
-    /* Border Colors */
-    --border-color: #2c3a47; /* Subtle borders */
-}
  /* https://midnight-grand-orchestra.jp/starpeggio/ */
 :root[data-theme="starpeggio"]{
     --primary-color: #3945FF;
@@ -267,4 +184,18 @@ body {
         font-weight: bold;
         font-style: normal;
     }
-    
+
+:root[data-theme="yamashiro"] {
+    --primary-color: #D82C51;
+    --accent-color: #C2A180;
+    --background-color: #1E1E1E;
+    --neutral-color: #F5F5F5;
+
+    --font-family: ('Aller', sans-serif);
+}
+
+    .aller-font {
+        font-family: "Aller", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
