@@ -62,7 +62,7 @@ const PaginationWrapper = styled.div`
   }
 
   .page-input-wrapper input {
-    margin-left: 8px; /* Adds gap between "Page" and the input */
+    margin: .5rem; /* Adds gap between "Page" and the input */
     width: 60px;
     padding: 5px;
     font-size: 16px;
@@ -81,26 +81,34 @@ const PaginationWrapper = styled.div`
   }
 `;
 
-const Pagination = ({ filteredAnimeList, itemsPerPage, currentPage, setCurrentPage }) => {
-  const totalPages = Math.ceil(filteredAnimeList.length / itemsPerPage);
+const Pagination = ({ 
+  totalItems, 
+  itemsPerPage, 
+  currentPage, 
+  onPageChange 
+}) => {
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
 
   const handlePageChange = useCallback((action) => {
     switch (action) {
       case 'prev':
-        if (currentPage > 1) setCurrentPage(currentPage - 1);
+        if (currentPage > 1) onPageChange(currentPage - 1);
         break;
       case 'next':
-        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+        if (currentPage < totalPages) onPageChange(currentPage + 1);
         break;
       default:
         break;
     }
-  }, [currentPage, totalPages, setCurrentPage]);
+  }, [currentPage, totalPages, onPageChange]);
 
   const handleCustomPageChange = useCallback((e) => {
-    const page = parseInt(e.target.value, 10);
-    if (page >= 1 && page <= totalPages) setCurrentPage(page);
-  }, [totalPages, setCurrentPage]);
+    const page = parseInt(e.target.value, 10) || 1;
+    const validatedPage = Math.min(Math.max(page, 1), totalPages);
+    onPageChange(validatedPage);
+  }, [totalPages, onPageChange]);
+
+  if (totalItems <= itemsPerPage) return null;
 
   return (
     <PaginationWrapper>
@@ -140,10 +148,10 @@ const Pagination = ({ filteredAnimeList, itemsPerPage, currentPage, setCurrentPa
 };
 
 Pagination.propTypes = {
-  filteredAnimeList: PropTypes.array.isRequired,
+  totalItems: PropTypes.number.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
-  setCurrentPage: PropTypes.func.isRequired,
+  onPageChange: PropTypes.func.isRequired,
 };
 
 export default Pagination;

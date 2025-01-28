@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import CustomDropdownWrapper from '../styles/customDropdownWrapper';
@@ -6,20 +6,29 @@ import CustomDropdownWrapper from '../styles/customDropdownWrapper';
 const CustomDropdown = ({ options, placeholder, onChange, value, context, onMenuClose, onBlur }) => {
   const selectRef = useRef(null);
 
-  const handleChange = (selectedOption) => {
-    onChange(selectedOption);
-  };
+  // Handle option selection
+  const handleChange = useCallback(
+    (selectedOption) => {
+      onChange(selectedOption);
+    },
+    [onChange]
+  );
 
-  const handleMenuClose = () => {
-    if (selectRef.current) selectRef.current.blur();
-    onMenuClose?.();
-  };
+  // Handle menu close event
+  const handleMenuClose = useCallback(() => {
+    if (selectRef.current) {
+      selectRef.current.blur(); // Blur the dropdown on close
+    }
+    onMenuClose?.(); // Call optional onMenuClose callback
+  }, [onMenuClose]);
 
-  const handleBlur = () => {
-    onBlur?.();
-  };
+  // Handle blur event
+  const handleBlur = useCallback(() => {
+    onBlur?.(); // Call optional onBlur callback
+  }, [onBlur]);
 
-  const activePlaceholder = value ? value.label : placeholder;
+  // Determine the placeholder text
+  const activePlaceholder = value?.label || placeholder;
 
   return (
     <CustomDropdownWrapper context={context}>
@@ -28,25 +37,41 @@ const CustomDropdown = ({ options, placeholder, onChange, value, context, onMenu
         options={options}
         placeholder={activePlaceholder}
         onChange={handleChange}
-        value={value}
+        value={value || null} // Fallback to null if value is undefined
         isSearchable={false}
         classNamePrefix="react-select"
         onMenuClose={handleMenuClose}
         onBlur={handleBlur}
-        aria-label="Dropdown"
+        aria-label={activePlaceholder || 'Dropdown'} // Improve accessibility
       />
     </CustomDropdownWrapper>
   );
 };
 
 CustomDropdown.propTypes = {
-  options: PropTypes.array.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    })
+  ).isRequired,
   placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.object, // Ensure value is an object
+  value: PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  }),
   context: PropTypes.string,
   onMenuClose: PropTypes.func,
   onBlur: PropTypes.func,
+};
+
+CustomDropdown.defaultProps = {
+  placeholder: 'Select an option',
+  value: null,
+  context: '',
+  onMenuClose: () => {},
+  onBlur: () => {},
 };
 
 export default CustomDropdown;

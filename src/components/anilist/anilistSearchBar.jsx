@@ -1,9 +1,12 @@
-import React, { useRef } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import styled, { css } from 'styled-components';
 
 const CustomSearchWrapper = styled.div`
   position: relative;
   z-index: 20;
+  width: 100%; /* Ensure it takes the full width of its container */
+  max-width: 100%; /* Prevent it from overflowing */
 
   .search-input__control {
     display: flex;
@@ -15,10 +18,12 @@ const CustomSearchWrapper = styled.div`
     border-radius: 0px;
     padding: 5px 10px;
     box-shadow: none;
-    width: 100%;
-    height: 44px;
+    width: 100%; /* Take full width of parent */
+    max-width: 100%; /* Prevent overflow */
+    height: 100%;
     transition: all 0.3s ease;
     z-index: 21;
+    box-sizing: border-box; /* Include padding and border in width calculation */
 
     &:focus-within {
       box-shadow: 8px 8px 0px var(--primary-color);
@@ -32,6 +37,7 @@ const CustomSearchWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0; /* Prevent icon container from shrinking */
 
     svg {
       width: 24px;
@@ -47,7 +53,7 @@ const CustomSearchWrapper = styled.div`
 
   .search-input__text {
     background-color: transparent;
-    width: 100%;
+    width: 100%; /* Take remaining space */
     padding: 10px;
     border: none;
     outline: none;
@@ -55,6 +61,8 @@ const CustomSearchWrapper = styled.div`
     font-size: 16px;
     z-index: 22;
     transition: all 0.3s ease;
+    flex-grow: 1;
+    box-sizing: border-box;
 
     ::placeholder {
       color: var(--primary-color);
@@ -71,7 +79,7 @@ const CustomSearchWrapper = styled.div`
     fill: var(--primary-color);
     width: 24px;
     height: 24px;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Prevent icon from shrinking */
   }
 
   .search-input__clear {
@@ -86,6 +94,7 @@ const CustomSearchWrapper = styled.div`
     justify-content: center;
     z-index: 23;
     transition: all 0.3s ease;
+    flex-shrink: 0; /* Prevent clear button from shrinking */
 
     &:hover {
       transform: scale(1.2);
@@ -106,19 +115,44 @@ const CustomSearchWrapper = styled.div`
     `}
 `;
 
-const CustomSearchInput = () => {
-  const inputRef = useRef(null);
+const anilistSearchBar = ({ value = '', onSearch, placeholder = 'Search...', context = '' }) => {
+  const [query, setQuery] = useState(value);
+  const timeoutRef = useRef(null);
 
-  const handleClearClick = (e) => {
-    e.preventDefault();
-    if (inputRef.current) {
-      inputRef.current.value = "";
-      inputRef.current.focus();
+  // Immediate sync with parent value changes
+  useEffect(() => {
+    if (value !== query) {
+      setQuery(value);
+      onSearch(value);
     }
+  }, [value]);
+
+  // Handle user input with debounce
+  useEffect(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      if (query !== value) {
+        onSearch(query);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutRef.current);
+  }, [query]);
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const handleClear = () => {
+    setQuery('');
+    onSearch('');
   };
 
   return (
-    <CustomSearchWrapper>
+    <CustomSearchWrapper context={context}>
       <div className="search-input__control">
         <div className="search-icon-container">
           <svg
@@ -136,13 +170,26 @@ const CustomSearchInput = () => {
         <input
           type="text"
           className="search-input__text"
-          placeholder="Search for titles, genres, tags..."
-          ref={inputRef}
+          value={query}
+          onChange={handleChange}
+          placeholder={placeholder}
+          aria-label="Search"
         />
-        <button className="search-input__clear" onClick={handleClearClick}>&times;</button>
+        {query && (
+          <button className="search-input__clear" onClick={handleClear}>
+            &times;
+          </button>
+        )}
       </div>
     </CustomSearchWrapper>
   );
 };
 
-export default CustomSearchInput;
+anilistSearchBar.propTypes = {
+  value: PropTypes.string,
+  onSearch: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  context: PropTypes.string,
+};
+
+export default anilistSearchBar;

@@ -1,35 +1,91 @@
 /* footer.css */
+
+:root {
+    --font-family: var(--font-family);
+    --transition: all 0.3s ease-in-out;
+}
+
 .footer-container {
     width: 100%;
-    height: 40vh;
+    min-height: 20vh;
     font-family: var(--font-family);
     background-color: var(--accent-color);
     color: var(--background-color);
-    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .footer {
-    padding-top: 2.5rem !important;
-    padding-bottom: 2.5rem !important;
-
+    padding: 2.5rem 0 !important;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-ul, ol, li {
-    list-style-type: none;
+.footer-items {
+    flex: 1 1 200px;
+    max-width: 40vh;
+}
+
+.footer-items .footer-tools {
+    max-width: 100% !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+
+.footer-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--background-color);
+}
+
+.footer-items ul {
     padding: 0;
     margin: 0;
-    transition: color 0.3s ease;
-
+    list-style-type: none; /* Ensure bullet points are removed */
 }
 
-li a {
+.footer-items li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-link {
     color: var(--background-color);
-    transition: color 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+    font-size: 1rem;
+    display: inline-block;
+    transition: var(--transition);
+    transform-origin: left center;
 }
 
-li a:hover {
+.footer-link:hover {
     color: var(--primary-color);
-    font-weight: bold;
-    transform: scale(1.05);
-    transition: color 0.3s ease, transform 0.3s ease;
+    transform: scale(1.1);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-items {
+        max-width: 100%;
+    }
+
+    .footer-link:hover {
+        transform: none; /* Disable scaling on smaller screens */
+    }
 }

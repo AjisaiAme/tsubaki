@@ -1,15 +1,14 @@
 /* Header Styles */
-/* Define a CSS variable for the header height */
 :root {
-    --header-height: 8vh; /* Default header height */
-    --header-padding: 1rem; /* Padding for header content */
-    --logo-size: calc(var(--header-height) * 0.6); /* Logo size relative to header height */
-    --link-padding: calc(var(--header-height) * 0.3); /* Padding for links */
-    --min-header-height: 60px; /* Minimum height for the header */
+    --header-height: 8vh;
+    --header-padding: 1rem;
+    --logo-size: calc(var(--header-height) * 0.8);
+    --link-padding: calc(var(--header-height) * 0.4);
+    --min-header-height: 60px;
   }
   
   .site-header {
-    background-color: var(--header-background-color);
+    background-color: var(--background-color);
     color: var(--text-color);
     transition: top 0.3s, background-color 0.3s, color 0.3s;
     padding: 0;
@@ -18,7 +17,7 @@
     left: 0;
     right: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 1000 !important;
     display: flex;
     justify-content: center; /* Centers items horizontally */
     align-items: center; /* Centers items vertically */
@@ -40,6 +39,8 @@
     margin: 0;
     padding: 0 var(--header-padding);
     box-sizing: border-box;
+
+    z-index: 99 !important;
   }
   
   .wrap .links {
@@ -73,21 +74,18 @@
     vertical-align: middle;
     min-height: var(--min-header-height); /* Enforce minimum height for logo */
   }
-  
 
 .wrap .links {
     display: flex;
-    justify-content: center; /* Centers the buttons horizontally */
-    align-items: center; /* Centers the buttons vertically */
+    justify-content: center;
+    align-items: center;
     font-weight: 600;
-    text-transform: capitalize;
     width: 100%;
-    height: 100%; /* Ensures the links fill the height of the wrap */
-    box-sizing: border-box; /* Includes padding/borders in height/width */
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .links .animated-button {
-    /* Styles for the animated-button */
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -103,8 +101,7 @@
 }
 
 .links .animated-button span {
-    /* Style the span elements inside the animated button */
-    display: block; /* Or inline-block depending on the layout you want */
+    display: block;
     transition: transform 0.2s ease;
 }
 
@@ -112,24 +109,18 @@
     color: var(--accent-color);
 }
 
-.links .animated-button:hover span {
-    transform: scale(1.05); /* Enlarge the span on hover */
-}
-
-
-
 /* Toggle Styles */
 .toggle-container {
     position: relative;
     width: 50px;
     height: 24px;
-    margin-left: auto; /* Aligns toggle to the right */
+    margin-left: auto;
     display: flex;
-    align-items: center; /* Centers toggle vertically */
+    align-items: center;
 }
 
 .toggle-checkbox {
-    display: none; /* Hides the checkbox */
+    display: none;
 }
 
 .toggle-label {

@@ -42,17 +42,10 @@ const TagsDisplay = ({ tags }) => {
               {tag.name} ({tag.rank}%)
             </span>
           );
-        })}
-
-        {/* Show "Show More" or "Show Less" button */}
-        {remainingTagsCount > 0 && (
-          <span
-            className="show-more-button"
-            onClick={() => setShowAll(!showAll)}
-          >
-            {showAll ? 'Show Less' : `+${remainingTagsCount} more`}
-          </span>
-        )}
+        }).reduce((acc, element, index) => {
+          // Add a space after each tag
+          return acc === null ? [element] : [...acc, ' ', element];
+        }, null)}
       </div>
     </div>
   );

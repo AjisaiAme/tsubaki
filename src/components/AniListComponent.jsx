@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import '../styles/anilist.css';
 import axios from 'axios';
+import debounce from 'lodash.debounce';
+import '../styles/anilist.css';
 
 // Components
 import Pagination from './anilist/paginationWrapper.jsx';
@@ -10,336 +11,371 @@ import DateDisplay from './anilist/dateDisplay';
 import GenreDisplay from './anilist/genreDisplay.jsx';
 import TagsDisplay from './anilist/tagsDisplay.jsx';
 import GenreFilter from './anilist/genreFilter.jsx';
-import SearchBar from './customSearchBar.jsx'; // Ensure this is imported
 import CustomDropdown from '../components/customDropdown.jsx';
+import AnilistSearchBar from './anilist/anilistSearchBar.jsx';
+import DescriptionDisplay from './anilist/descriptionDisplay.jsx';
+
+// Constants
+const ITEMS_PER_PAGE = 12;
+const STATUS_OPTIONS = [
+  { value: 'ALL', label: 'All' },
+  { value: 'CURRENT', label: 'Reading' },
+  { value: 'PLANNING', label: 'Planning' },
+  { value: 'COMPLETED', label: 'Finished' },
+  { value: 'DROPPED', label: 'Dropped' },
+  { value: 'PAUSED', label: 'Paused' },
+  { value: 'REPEATING', label: 'Repeating' },
+];
+const SORT_OPTIONS = [
+  { value: 'title', label: 'Sort by Title' },
+  { value: 'score', label: 'Sort by Score' },
+  { value: 'progress', label: 'Sort by Progress' },
+];
 
 const AniListComponent = () => {
+  // State management
   const [animeList, setAnimeList] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState('ALL');
+  const [selectedStatus, setSelectedStatus] = useState(() =>
+    localStorage.getItem('selectedStatus') || 'ALL'
+  );
   const [selectedGenre, setSelectedGenre] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('title');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(''); // Search term state
+  const [searchTerm, setSearchTerm] = useState('');
   const [genresWithCount, setGenresWithCount] = useState([]);
+  const [username, setUsername] = useState('ajisai'); // Default username
 
-  const itemsPerPage = 12;
+  // Memoized data processing
+  const preprocessedList = useMemo(() =>
+    animeList.map(entry => ({
+      ...entry,
+      searchString: [
+        entry.media.title?.romaji?.toLowerCase() || '',
+        entry.media.title?.english?.toLowerCase() || '',
+        ...(entry.media.tags || []).map(tag => tag.name?.toLowerCase() || '')
+      ].join(' ')
+    })),
+    [animeList]
+  );
 
-  useEffect(() => {
-    const savedStatus = localStorage.getItem('selectedStatus');
-    if (savedStatus) setSelectedStatus(savedStatus);
-  }, []);
+  // Filtering and sorting
+  const filteredAnimeList = useMemo(() => {
+    const normalizedSearch = searchTerm.trim().toLowerCase();
 
-  // Fetch Entry List
+    return preprocessedList.filter(({ status, media, searchString }) => {
+      const statusMatch = selectedStatus === 'ALL' || status === selectedStatus;
+      const genreMatch = !selectedGenre || (media.genres || []).includes(selectedGenre);
+      const searchMatch = !normalizedSearch || searchString.includes(normalizedSearch);
+
+      return statusMatch && genreMatch && searchMatch;
+    });
+  }, [preprocessedList, selectedStatus, selectedGenre, searchTerm]);
+
+  const sortedAnimeList = useMemo(() => {
+    const collator = new Intl.Collator(undefined, { sensitivity: 'base' });
+    return [...filteredAnimeList].sort((a, b) => {
+      switch (sortBy) {
+        case 'title':
+          return collator.compare(a.media.title.romaji, b.media.title.romaji);
+        case 'score':
+          return (b.score || 0) - (a.score || 0);
+        case 'progress':
+          return (b.progress || 0) - (a.progress || 0);
+        default: return 0;
+      }
+    });
+  }, [filteredAnimeList, sortBy]);
+
+  // Pagination
+  const paginatedItems = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return sortedAnimeList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [sortedAnimeList, currentPage]);
+
+  // Data fetching
   useEffect(() => {
     const source = axios.CancelToken.source();
-    let isMounted = true; // Track if the component is mounted
+    let isMounted = true;
 
     const fetchAnimeList = async () => {
-      if (!isMounted) return; // Exit if the component is unmounted
-
+      if (!isMounted) return;
       setLoading(true);
       setError(null);
 
       try {
-        const query = `
-          query {
-            MediaListCollection(userName: "ajisai", type: MANGA) {
-              lists {
-                entries {
-                  score
-                  progress
-                  status
-                  media {
-                    coverImage {
-                      large
-                    }
-                    title {
-                      english
-                      romaji
-                    }
-                    tags {
-                      name
-                      rank
-                    }
-                    chapters
-                    genres
-                    siteUrl
-                  }
-                  startedAt {
-                    year
-                    month
-                    day
-                  }
-                  completedAt {
-                    year
-                    month
-                    day
-                  }
-                }
-              }
-            }
-          }
-        `;
-
         const response = await axios({
           url: 'https://graphql.anilist.co',
           method: 'post',
-          data: { query },
+          data: { query: ANIME_LIST_QUERY(username) },
           cancelToken: source.token,
-          timeout: 10000,
+          timeout: 15000, // Increased timeout
         });
 
-        if (!response || !response.data || response.data.errors) {
-          throw new Error('Failed to fetch data from AniList API');
-        }
+        if (response.data.errors) throw new Error('API Error');
 
-        const lists = response?.data?.data?.MediaListCollection?.lists || [];
-        const entries = lists.flatMap((list) => list.entries);
+        const entries = processApiResponse(response);
+        if (!isMounted) return;
 
-        if (isMounted) {
-          // Update anime list state
-          setAnimeList(entries);
-
-          // Calculate genre counts
-          const genreCount = {};
-          entries.forEach((entry) => {
-            if (entry.media?.genres) {
-              entry.media.genres.forEach((genre) => {
-                genreCount[genre] = (genreCount[genre] || 0) + 1;
-              });
-            }
-          });
-
-          // Convert genre counts to an array of objects
-          const genresWithCount = Object.keys(genreCount).map((genre) => ({
-            genre,
-            count: genreCount[genre],
-          }));
-
-          // Update genres with count state
-          setGenresWithCount(genresWithCount);
-        }
+        setAnimeList(entries);
+        setGenresWithCount(calculateGenreCounts(entries));
       } catch (error) {
-        if (axios.isCancel(error)) {
-          console.log('Request canceled:', error.message);
-        } else if (isMounted) {
-          console.error('Error fetching anime list:', error);
-          setError(
-            error.response?.data?.errors?.[0]?.message ||
-            'Failed to fetch the anime list. Please try again later.'
-          );
-          setGenresWithCount([]);
+        if (error.code === 'ECONNABORTED') {
+          setError('Request timed out. Please try again.');
+        } else {
+          handleFetchError(error, isMounted, setError);
         }
       } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        if (isMounted) setLoading(false);
       }
     };
 
-    // Fetch the anime list
     fetchAnimeList();
-
-    // Cleanup function to cancel the request if the component unmounts
     return () => {
-      isMounted = false; // Mark the component as unmounted
-      if (source) {
-        source.cancel('Component unmounted, request canceled');
-      }
+      isMounted = false;
+      source.cancel();
     };
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, [username]);
 
-  // Handle search term changes
-  const handleSearchChange = useCallback((query) => {
-    console.log('Search term updated:', query); // Debugging
-    setSearchTerm(query);
+  // Event handlers
+  const debouncedSearchChange = useCallback(
+    debounce((query) => {
+      setSearchTerm(query);
+      setCurrentPage(1);
+    }, 300),
+    []
+  );
+
+  const handleSearchChange = (query) => {
+    debouncedSearchChange(query);
+  };
+
+  const handleStatusChange = useCallback(({ value }) => {
+    setSelectedStatus(value);
+    localStorage.setItem('selectedStatus', value);
     setCurrentPage(1);
-}, []);
-
-  const formatDate = useCallback((date) => {
-    if (!date || !date.year || !date.month || !date.day) return null;
-    return `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
-  }, []);
-
-  const handleStatusChange = useCallback((selectedOption) => {
-    const newStatus = selectedOption.value;
-    setSelectedStatus(newStatus);
-    setCurrentPage(1);
-    localStorage.setItem('selectedStatus', newStatus);
-  }, []);
-
-  const handleGenreChange = useCallback((selectedOption) => {
-    setSelectedGenre(selectedOption ? selectedOption.value : '');
-    setCurrentPage(1);
-  }, []);
-
-  const handleSortChange = useCallback((selectedOption) => {
-    setSortBy(selectedOption.value);
-  }, []);
-
-  const handleClearSearch = useCallback(() => {
-    setSearchTerm(''); // Clear search term
   }, []);
 
   const resetFilters = useCallback(() => {
     setSelectedStatus('ALL');
     setSelectedGenre('');
     setSortBy('title');
-    handleClearSearch(); // Clear search term
+    setSearchTerm('');
     setCurrentPage(1);
-  }, [handleClearSearch]);
+  }, []);
 
-  // Filter the anime list based on search term, status, and genre
-  const filteredAnimeList = useMemo(() => {
-    console.log('Filtering anime list with search term:', searchTerm); // Debugging
-    return animeList.filter((entry) => {
-        const matchStatus = selectedStatus === 'ALL' || entry.status === selectedStatus;
-        const matchGenre = selectedGenre === '' || entry.media.genres.includes(selectedGenre);
-        const searchTermLower = searchTerm.toLowerCase();
-        const titleMatch =
-            (entry.media.title.romaji || '').toLowerCase().includes(searchTermLower) ||
-            (entry.media.title.english || '').toLowerCase().includes(searchTermLower);
-        const tagMatch = entry.media.tags.some((tag) => tag.name.toLowerCase().includes(searchTermLower));
-        return matchStatus && matchGenre && (titleMatch || tagMatch);
-    });
-}, [animeList, selectedStatus, selectedGenre, searchTerm]);
+  const handleUsernameChange = useCallback((newUsername) => {
+    setUsername(newUsername);
+    setCurrentPage(1);
+  }, []);
 
-  // Sort the filtered anime list
-  const sortedAnimeList = useMemo(() => {
-    console.log('Sorting anime list by:', sortBy); // Debugging
-    return [...filteredAnimeList].sort((a, b) => {
-        if (sortBy === 'title') {
-            return a.media.title.romaji.localeCompare(b.media.title.romaji);
-        } else if (sortBy === 'score') {
-            return b.score - a.score;
-        } else if (sortBy === 'progress') {
-            return b.progress - a.progress;
-        }
-        return 0;
-    });
-}, [filteredAnimeList, sortBy]);
+  // Helper functions
+  const formatDate = useCallback((date) => {
+    if (!date?.year || !date?.month || !date?.day) return null;
+    return `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}`;
+  }, []);
 
-  // Pagination logic
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = sortedAnimeList.slice(startIndex, startIndex + itemsPerPage);
+  // Render helpers
+  const renderListItem = useCallback((entry, index) => (
+    <li key={entry.media.siteUrl + index} className="anilist-list-item">
+      <img
+        src={entry.media.coverImage?.large || 'default-cover.jpg'}
+        alt={`Cover for ${entry.media.title?.romaji || 'Untitled'}`}
+        className="anilist-cover"
+        loading="lazy"
+      />
+      <div className="anilist-details">
+        <div className="entry-title">
+          <h3>
+            <a
+              href={entry.media.siteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${entry.media.title.romaji} details in new tab`}
+            >
+              {entry.media.title.romaji}
+            </a>
+          </h3>
+          {entry.media.title.english && (
+            <p aria-hidden="true">{entry.media.title.english}</p>
+          )}
+        </div>
+        <div className="user-stats">
+          <ScoreDisplay score={entry.score || 0} />
+          <ProgressDisplay
+            progress={entry.progress || 0}
+            chapters={entry.media.chapters || 0}
+          />
+        </div>
+        <DateDisplay
+          startedAt={entry.startedAt}
+          completedAt={entry.completedAt}
+          formatDate={formatDate}
+        />
+        <GenreDisplay genres={entry.media.genres} />
+        <TagsDisplay tags={entry.media.tags || []} />
+        <DescriptionDisplay description={entry.media.description} />
+      </div>
+    </li>
+  ), [formatDate]);
 
   return (
-    <div className="page-content">
+    <div className="page-content" role="main" aria-label="Manga list">
       <div className="container">
-        <h3>MANGA LIST</h3>
+        <h1 tabIndex="-1" id="main-heading">MANGA LIST</h1>
         <div className="header-wrap">
-          <div className="search-container">
-          <SearchBar
+          {/* Username Section */}
+          <div className='header-component'>
+            <div className='component-title'>Username</div>
+            <AnilistSearchBar
+              value={username}
+              onSearch={handleUsernameChange}
+              placeholder="Enter AniList Username"
+              ariaLabel="Enter AniList Username"
+            />
+          </div>
+
+          {/* Search Section */}
+          <div className='header-component'>
+            <div className='component-title'>Search</div>
+            <AnilistSearchBar
               value={searchTerm}
               onSearch={handleSearchChange}
               placeholder="Search by Title or Tag"
-              context="parameters"
-          />
+              ariaLabel="Search manga entries"
+            />
           </div>
-          <div className="filter-container">
-            <CustomDropdown
-              options={[
-                { value: 'ALL', label: 'All' },
-                { value: 'CURRENT', label: 'Reading' },
-                { value: 'PLANNING', label: 'Planning' },
-                { value: 'COMPLETED', label: 'Finished' },
-                { value: 'DROPPED', label: 'Dropped' },
-                { value: 'PAUSED', label: 'Paused' },
-                { value: 'REPEATING', label: 'Repeating' },
-              ]}
-              value={{ value: selectedStatus, label: selectedStatus }}
-              onChange={handleStatusChange}
-              placeholder="-"
-            />
-            <CustomDropdown
-              options={[
-                { value: 'title', label: 'Sort by Title' },
-                { value: 'score', label: 'Sort by Score' },
-                { value: 'progress', label: 'Sort by Progress' },
-              ]}
-              value={{ value: sortBy, label: `Sort by ${sortBy.charAt(0).toUpperCase() + sortBy.slice(1)}` }}
-              onChange={handleSortChange}
-              placeholder="Sort By"
-            />
-            <div>
-              {loading ? (
-                <div className="loading-text">Loading genres...</div>
-              ) : (
-                <GenreFilter
-                  genresWithCount={genresWithCount || []}
-                  selectedGenre={selectedGenre}
-                  handleGenreChange={handleGenreChange}
-                  handleMenuClose={() => setSelectedGenre('')}
-                  handleBlur={() => setSelectedGenre('')}
-                />
-              )}
+
+          {/* Filters Section */}
+          <div className='header-component'>
+            <div className='component-title'>Filters</div>
+            <div className="filter-container" role="group" aria-labelledby="filter-controls">
+              <CustomDropdown
+                options={STATUS_OPTIONS}
+                value={STATUS_OPTIONS.find(o => o.value === selectedStatus)}
+                onChange={handleStatusChange}
+                aria-label="Filter by status"
+              />
+              <CustomDropdown
+                options={SORT_OPTIONS}
+                value={SORT_OPTIONS.find(o => o.value === sortBy)}
+                onChange={({ value }) => setSortBy(value)}
+                aria-label="Sort entries"
+              />
+              <GenreFilter
+                genresWithCount={genresWithCount}
+                selectedGenre={selectedGenre}
+                handleGenreChange={setSelectedGenre}
+                loading={loading}
+                aria-label="Filter by genre"
+              />
+              <button
+                className="reset-button"
+                onClick={resetFilters}
+                aria-label="Reset all filters"
+              >
+                Reset
+              </button>
             </div>
-            <button className="reset-button" onClick={resetFilters}>
-              Reset
-            </button>
           </div>
         </div>
-        <div className="pagination-container">
+
+        {/* Pagination */}
+        <div className='pagination-container'>
           <Pagination
-            filteredAnimeList={filteredAnimeList}
-            itemsPerPage={itemsPerPage}
+            totalItems={filteredAnimeList.length}
+            itemsPerPage={ITEMS_PER_PAGE}
             currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+            onPageChange={setCurrentPage}
+            aria-label="Manga list pagination"
           />
         </div>
+
+        {/* List Container */}
         <div className="anilist-list-container">
-          <ul className="anilist-list">
-            {loading ? (
-              <div className="message">
-                <h3>Loading data...</h3>
-              </div>
-            ) : currentItems.length === 0 ? (
-              <div className="message">
-                <h3>No data available for the selected filters.</h3>
-              </div>
-            ) : (
-              currentItems.map((entry, index) => (
-                <li key={index} className="anilist-list-item">
-                  <img src={entry.media.coverImage.large} alt={entry.media.title.romaji} className="anilist-cover" />
-                  <div className="anilist-details">
-                    <div className="entry-title">
-                      <h3>
-                        <a href={entry.media.siteUrl} target="_blank" rel="noopener noreferrer">
-                          {entry.media.title.romaji}
-                        </a>
-                      </h3>
-                      <p>{entry.media.title.english || ' '}</p>
-                    </div>
-                    <div className="user-stats">
-                      <ScoreDisplay score={entry.score || 0} />
-                      <ProgressDisplay progress={entry.progress || 0} chapters={entry.media.chapters || 0} />
-                    </div>
-                      <DateDisplay
-                        startedAt={entry.startedAt}
-                        completedAt={entry.completedAt}
-                        formatDate={formatDate}
-                      />
-                      <GenreDisplay genres={entry.media.genres} />
-                      <TagsDisplay tags={entry.media.tags || []} />
-                  </div>
-                </li>
-              ))
-            )}
-          </ul>
+          {loading ? (
+            <div role="status" aria-live="polite" aria-busy="true">
+              <h3>Loading data...</h3>
+            </div>
+          ) : error ? (
+            <div role="alert" className="error-message">
+              <h3>{error}</h3>
+            </div>
+          ) : paginatedItems.length === 0 ? (
+            <div role="status" className="empty-message">
+              <h3>No results found for current filters</h3>
+            </div>
+          ) : (
+            <ul className="anilist-list" role="list">
+              {paginatedItems.map(renderListItem)}
+            </ul>
+          )}
         </div>
-        <div className="pagination-container">
+
+        {/* Pagination */}
+        <div className='pagination-container'>
           <Pagination
-            filteredAnimeList={filteredAnimeList}
-            itemsPerPage={itemsPerPage}
+            totalItems={filteredAnimeList.length}
+            itemsPerPage={ITEMS_PER_PAGE}
             currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+            onPageChange={setCurrentPage}
+            aria-label="Manga list pagination"
           />
         </div>
       </div>
     </div>
   );
+};
+
+// Helper functions outside component
+const ANIME_LIST_QUERY = (username) => `query {
+  MediaListCollection(userName: "${username}", type: MANGA) {
+    lists {
+      entries {
+        score
+        progress
+        status
+        media {
+          coverImage { large }
+          title { english romaji }
+          description
+          tags { name rank }
+          chapters
+          genres
+          siteUrl
+        }
+        startedAt { year month day }
+        completedAt { year month day }
+      }
+    }
+  }
+}`;
+
+const processApiResponse = (response) => {
+  const lists = response?.data?.data?.MediaListCollection?.lists || [];
+  if (lists.length === 0) {
+    throw new Error('No manga list found for this user.');
+  }
+  return lists.flatMap(list => list.entries);
+};
+
+const calculateGenreCounts = (entries) => {
+  const genreCount = entries.reduce((acc, { media }) => {
+    media.genres?.forEach(genre => acc[genre] = (acc[genre] || 0) + 1);
+    return acc;
+  }, {});
+
+  return Object.entries(genreCount).map(([genre, count]) => ({ genre, count }));
+};
+
+const handleFetchError = (error, isMounted, setError) => {
+  if (!isMounted || axios.isCancel(error)) return;
+
+  console.error('Fetch error:', error);
+  const errorMessage = error.response?.data?.errors?.[0]?.message ||
+    'Failed to load manga list. Please check your connection and try again.';
+  setError(errorMessage);
 };
 
 export default AniListComponent;
