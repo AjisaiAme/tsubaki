@@ -81,10 +81,12 @@ const Header = () => {
                         <span>Home</span>
                         <span></span>
                     </a>
+                    {/*
                     <a href="/about" className="animated-button">
                         <span>About</span>
                         <span></span>
                     </a>
+                    */}
                     <a href="/anilist" className="animated-button">
                         <span>AniList</span>
                         <span></span>
